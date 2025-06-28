@@ -8,6 +8,7 @@
 // npx prisma migrate dev --name init
 // View and edit your data locally by running this command:
 // npx prisma studio
+ 
 generator client {
   provider = "prisma-client-js"
   output   = "../app/generated/prisma"

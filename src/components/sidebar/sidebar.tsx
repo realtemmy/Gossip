@@ -70,7 +70,7 @@ const categories: Category[] = [
 
 
 export function Sidebar() {
-    const { searchQuery, selectedCategory, setSearchQuery, setSelectedCategory } = useCategory()
+    const { searchQuery, selectedCategory, setSearchQuery, setSelectedCategory } = useCategory();
     return (
         <div className="w-80 bg-card border-r flex flex-col">
             {/* Header */}

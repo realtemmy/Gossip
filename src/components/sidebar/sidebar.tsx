@@ -13,7 +13,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { useCategory } from '@/app/context/category-context';
+import { useCategory } from '@/contexts/category-context';
 
 interface Category {
     id: string;
@@ -72,11 +72,11 @@ const categories: Category[] = [
 export function Sidebar() {
     const { searchQuery, selectedCategory, setSearchQuery, setSelectedCategory } = useCategory();
     return (
-        <div className="w-80 bg-card border-r flex flex-col">
+        <div className="w-96 bg-card border-r flex flex-col h-screen">
             {/* Header */}
             <div className="p-6 border-b">
                 <div className="flex items-center justify-between mb-4">
-                    <h1 className="text-2xl font-bold">ChatHub</h1>
+                    <h1 className="text-2xl font-bold">Gossipit</h1>
                     <div className="flex gap-2">
                         <Button variant="ghost" size="icon">
                             <Bell className="w-5 h-5" />
@@ -122,7 +122,7 @@ export function Sidebar() {
                                 <div className="flex-1 text-left">
                                     <div className="font-medium">{category.name}</div>
                                     <div className="text-sm text-muted-foreground">
-                                        {category.groupCount} groups
+                                        {category.groupCount} channels
                                     </div>
                                 </div>
                             </Button>

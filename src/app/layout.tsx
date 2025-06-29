@@ -1,33 +1,34 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+'use client';
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+import React, { useState } from 'react';
+import { Inter } from 'next/font/google';
+import './globals.css';
+import { Sidebar } from '@/components/sidebar/sidebar';
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-export const metadata: Metadata = {
-  title: "Gossipit",
-  description: "An anonymous platform",
-};
+const inter = Inter({ subsets: ['latin'] });
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
+  const [selectedCategory, setSelectedCategory] = useState<string>('lifestyle');
+  const [searchQuery, setSearchQuery] = useState('');
+
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+      <body className={inter.className}>
+        <div className="flex h-screen bg-background">
+          <Sidebar
+            selectedCategory={selectedCategory}
+            onCategorySelect={setSelectedCategory}
+            searchQuery={searchQuery}
+            onSearchChange={setSearchQuery}
+          />
+          <div className="flex-1 flex flex-col">
+            {children}
+          </div>
+        </div>
       </body>
     </html>
   );

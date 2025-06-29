@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { Inter } from 'next/font/google';
 import './globals.css';
+import { CategoryProvider } from './context/category-context';
 import { Sidebar } from '@/components/sidebar/sidebar';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -18,17 +19,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className="flex h-screen bg-background">
-          <Sidebar
-            selectedCategory={selectedCategory}
-            onCategorySelect={setSelectedCategory}
-            searchQuery={searchQuery}
-            onSearchChange={setSearchQuery}
-          />
-          <div className="flex-1 flex flex-col">
-            {children}
+        <CategoryProvider>
+
+          <div className="flex h-screen bg-background">
+            <Sidebar />
+            <div className="flex-1 flex flex-col">
+              {children}
+            </div>
           </div>
-        </div>
+        </CategoryProvider>
       </body>
     </html>
   );

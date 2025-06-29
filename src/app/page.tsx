@@ -1,3 +1,4 @@
+"use client"
 import React from 'react';
 import {
   Users,
@@ -11,6 +12,7 @@ import {
   TrendingUp,
   Crown
 } from 'lucide-react';
+import { useCategory } from './context/category-context';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -25,7 +27,7 @@ interface ChatGroup {
 }
 
 interface Category {
-  id: string;
+  id: number;
   name: string;
   icon: React.ReactNode;
   color: string;
@@ -34,7 +36,7 @@ interface Category {
 
 const categories: Category[] = [
   {
-    id: 'lifestyle',
+    id: 1,
     name: 'Lifestyle',
     icon: <Users className="w-5 h-5" />,
     color: 'bg-purple-500',
@@ -47,7 +49,7 @@ const categories: Category[] = [
     ]
   },
   {
-    id: 'celebrities',
+    id: 2,
     name: 'Celebrities',
     icon: <Star className="w-5 h-5" />,
     color: 'bg-yellow-500',
@@ -60,7 +62,7 @@ const categories: Category[] = [
     ]
   },
   {
-    id: 'politics',
+    id: 3,
     name: 'Politics',
     icon: <Vote className="w-5 h-5" />,
     color: 'bg-blue-500',
@@ -73,7 +75,7 @@ const categories: Category[] = [
     ]
   },
   {
-    id: 'gaming',
+    id: 4,
     name: 'Gaming',
     icon: <Gamepad2 className="w-5 h-5" />,
     color: 'bg-green-500',
@@ -86,7 +88,7 @@ const categories: Category[] = [
     ]
   },
   {
-    id: 'education',
+    id: 5,
     name: 'Education',
     icon: <GraduationCap className="w-5 h-5" />,
     color: 'bg-indigo-500',
@@ -99,7 +101,7 @@ const categories: Category[] = [
     ]
   },
   {
-    id: 'business',
+    id: 6,
     name: 'Business',
     icon: <Briefcase className="w-5 h-5" />,
     color: 'bg-orange-500',
@@ -113,13 +115,9 @@ const categories: Category[] = [
   }
 ];
 
-interface HomePageProps {
-  selectedCategory?: string;
-  searchQuery?: string;
-}
-
-export default function HomePage({ selectedCategory = 'lifestyle', searchQuery = '' }: HomePageProps) {
-  const currentCategory = categories.find(cat => cat.id === selectedCategory);
+export default function HomePage() {
+  const { searchQuery, selectedCategory } = useCategory();
+  const currentCategory = categories.find(cat => cat.name.toLowerCase() === selectedCategory.toLowerCase());
 
   const filteredGroups = currentCategory?.groups.filter(group =>
     group.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -192,7 +190,7 @@ export default function HomePage({ selectedCategory = 'lifestyle', searchQuery =
                     </div>
                   </div>
 
-                  <Button  className="w-full transition-all">
+                  <Button className="w-full transition-all">
                     Join Group
                   </Button>
                 </CardContent>

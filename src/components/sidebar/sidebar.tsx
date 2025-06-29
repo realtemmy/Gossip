@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { useCategory } from '@/app/context/category-context';
 
 interface Category {
     id: string;
@@ -67,20 +68,9 @@ const categories: Category[] = [
     }
 ];
 
-interface SidebarProps {
-    selectedCategory: string;
-    onCategorySelect: (categoryId: string) => void;
-    searchQuery: string;
-    onSearchChange: (query: string) => void;
-}
 
-export function Sidebar({
-    selectedCategory,
-    onCategorySelect,
-    searchQuery,
-    onSearchChange
-}: SidebarProps
-) {
+export function Sidebar() {
+    const { searchQuery, selectedCategory, setSearchQuery, setSelectedCategory } = useCategory()
     return (
         <div className="w-80 bg-card border-r flex flex-col">
             {/* Header */}
@@ -103,7 +93,7 @@ export function Sidebar({
                     <Input
                         placeholder="Search groups..."
                         value={searchQuery}
-                        onChange={(e) => onSearchChange(e.target.value)}
+                        onChange={(e) => setSearchQuery(e.target.value)}
                         className="pl-10"
                     />
                 </div>
@@ -119,12 +109,12 @@ export function Sidebar({
                         {categories.map((category) => (
                             <Button
                                 key={category.id}
-                                variant={selectedCategory === category.id ? "secondary" : "ghost"}
-                                className={`w-full justify-start gap-3 h-auto p-3 ${selectedCategory === category.id
-                                    ? 'bg-primary/10 text-primary border border-primary/20'
-                                    : ''
+                                variant={selectedCategory === category.name ? "secondary" : "ghost"}
+                                className={`w-full justify-start gap-3 h-auto p-3 ${selectedCategory === category.name
+                                    && 'bg-primary/10 text-primary border border-primary/20'
+
                                     }`}
-                                onClick={() => onCategorySelect(category.id)}
+                                onClick={() => setSelectedCategory(category.name)}
                             >
                                 <div className={`p-2 rounded-lg ${category.color} text-white`}>
                                     {category.icon}

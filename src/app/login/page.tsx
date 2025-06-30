@@ -12,6 +12,16 @@ import { Label } from "@/components/ui/label"
 
 
 const Login = () => {
+    const getUsers = async () => {
+        const users = await fetch("http://localhost:3000/api/users", {
+            method: "GET"
+        });
+        // console.log("Users: ",await users.json())
+    }
+    getUsers()
+    const handleSubmit = async () => {
+
+    }
     return (
         <div className="flex h-screen w-screen justify-center items-center">
             <Card className="w-full max-w-sm">
@@ -44,7 +54,7 @@ const Login = () => {
                             </div>
                         </div>
                     </form>
-                    
+
                 </CardContent>
                 <CardFooter className="flex-col gap-2">
                     <Button type="submit" className="w-full">
@@ -58,7 +68,7 @@ const Login = () => {
                         <p>Don't have an account? <Link className="text-black hover:underline" href="/signup"> Sign up</Link></p>
                     </div>
                 </CardFooter>
-                
+
             </Card>
         </div>
 

@@ -9,19 +9,10 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import SignIn from "@/components/sign-in"
 
 
 const Login = () => {
-    const getUsers = async () => {
-        const users = await fetch("http://localhost:3000/api/users", {
-            method: "GET"
-        });
-        // console.log("Users: ",await users.json())
-    }
-    getUsers()
-    const handleSubmit = async () => {
-
-    }
     return (
         <div className="flex h-screen w-screen justify-center items-center">
             <Card className="w-full max-w-sm">
@@ -60,9 +51,7 @@ const Login = () => {
                     <Button type="submit" className="w-full">
                         Login
                     </Button>
-                    <Button variant="outline" className="w-full">
-                        Login with Google
-                    </Button>
+                    <SignIn />
 
                     <div className="my-4 text-sm text-slate-400">
                         <p>Don't have an account? <Link className="text-black hover:underline" href="/signup"> Sign up</Link></p>

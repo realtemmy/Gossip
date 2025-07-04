@@ -14,3 +14,32 @@ export const GET = async () => {
     );
   }
 };
+
+export const POST = async (req: NextRequest) => {
+  try {
+    const body = await req.json();
+    const { name, icon, color } = body;
+
+    if (!name || !icon || !color) {
+      return NextResponse.json(
+        { error: "Missing required fields" },
+        { status: 400 }
+      );
+    }
+
+    const newCategory = await prisma.category.create({
+      data: {
+        name,
+        icon,
+        color,
+      },
+    });
+
+    return NextResponse.json(newCategory, { status: 201 });
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Failed to create category" },
+      { status: 500 }
+    );
+  }
+}

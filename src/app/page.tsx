@@ -17,7 +17,6 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Sidebar } from '@/components/sidebar/sidebar';
-import axios from "axios";
 
 interface ChatGroup {
   id: string;

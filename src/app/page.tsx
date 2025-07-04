@@ -1,5 +1,5 @@
 "use client"
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Users,
   Star,
@@ -17,7 +17,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Sidebar } from '@/components/sidebar/sidebar';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import axios from "axios";
 
 interface ChatGroup {
   id: string;
@@ -35,6 +35,8 @@ interface Category {
   color: string;
   groups: ChatGroup[];
 }
+
+
 
 const categories: Category[] = [
   {
@@ -118,6 +120,9 @@ const categories: Category[] = [
 ];
 
 export default function HomePage() {
+
+
+
   const { searchQuery, selectedCategory } = useCategory();
   const currentCategory = categories.find(cat => cat.name.toLowerCase() === selectedCategory.toLowerCase());
 

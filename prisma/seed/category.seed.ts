@@ -1,42 +1,52 @@
 import { Prisma,PrismaClient } from "@/generated/prisma";
-import slugify from "slugify";
-
-
 
 export const seedCategory = async (prisma: PrismaClient) => {
   const categoryData: Prisma.CategoryCreateInput[] = [];
 
   const toAdd = [
     {
-      name: "celebrities",
-      description: "Celebrities and their lives",
+      name: "Lifestyle",
+      icon: "Users",
+      color: "green",
+
     },
     {
-      name: "politics",
-      description: "Political news and events",
+      name: "Celebrities",
+      icon: "Star",
+      color: "yellow",
+
     },
     {
-      name: "sports",
-      description: "Sports news and events",
+      name: "Politics",
+      icon: "Vote",
+      color: "blue",
+
     },
     {
-      name: "technology",
-      description: "Technology news and advancements",
+      name: "Gaming",
+      icon: "Gamepad2" ,
+      color: "green",
+
     },
     {
-      name: "entertainment",
-      description: "Entertainment news and events",
+      name: "Education",
+      icon: "GraduationCap" ,
+      color: "indigo",
+
     },
     {
-        name: "books and literature",
-        description: "Books, literature, and literary events",
-    }
+      name: "Business",
+      icon: "Briefcase" ,
+      color: "orange",
+    },
   ];
+
+// }
   toAdd.forEach((category) => {
     categoryData.push({
       name: category.name,
-      description: category.description,
-      slug: slugify(category.name, { lower: true }),
+      icon: category?.icon,
+      color: category?.color,
     });
   });
 

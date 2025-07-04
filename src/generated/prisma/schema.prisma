@@ -21,14 +21,30 @@ datasource db {
 }
 
 model Category {
-  id          Int      @id @default(autoincrement())
-  name        String   @unique
-  slug        String   @unique
-  description String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id         Int      @id @default(autoincrement())
+  name       String   @unique
+  icon       String?
+  color      String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  groups     Group[]
+  groupCount Int      @default(0)
 
   @@map("categories")
+}
+
+model Group {
+  id         Int      @id @default(autoincrement())
+  name       String
+  slug       String
+  categoryId Int
+  Category   Category @relation(fields: [categoryId], references: [id])
+  members    Int      @default(0)
+  lastActive DateTime @default(now())
+  trending   Boolean  @default(false)
+  verified   Boolean  @default(false)
+
+  @@map("groups")
 }
 
 model User {

@@ -123,10 +123,22 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 exports.Prisma.CategoryScalarFieldEnum = {
   id: 'id',
   name: 'name',
-  slug: 'slug',
-  description: 'description',
+  icon: 'icon',
+  color: 'color',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  groupCount: 'groupCount'
+};
+
+exports.Prisma.GroupScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
+  categoryId: 'categoryId',
+  members: 'members',
+  lastActive: 'lastActive',
+  trending: 'trending',
+  verified: 'verified'
 };
 
 exports.Prisma.UserScalarFieldEnum = {
@@ -176,6 +188,7 @@ exports.MessageStatus = exports.$Enums.MessageStatus = {
 
 exports.Prisma.ModelName = {
   Category: 'Category',
+  Group: 'Group',
   User: 'User',
   Conversation: 'Conversation',
   Message: 'Message'

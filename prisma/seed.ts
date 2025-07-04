@@ -7,10 +7,10 @@ import { seedMessages } from "./seed/message.seed";
 const prisma = new PrismaClient();
 
 async function main() {
-  await seedCategory(prisma);
-  await seedUsers(prisma);
-  await seedConversations(prisma);
-  await seedMessages(prisma);
+  // await seedCategory(prisma);
+  // await seedUsers(prisma);
+  // await seedConversations(prisma);
+  // await seedMessages(prisma);
   console.log("Seeding completed successfully.");
 }
 

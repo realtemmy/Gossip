@@ -1,10 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { CategoryProvider } from '../contexts/category-context';
-import { Sidebar } from '@/components/sidebar/sidebar';
 
 const inter = Inter({ subsets: ['latin'] });
 

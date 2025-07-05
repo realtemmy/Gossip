@@ -1,0 +1,97 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+// Run the following command to create and apply a migration:
+// npx prisma migrate dev --name init
+// View and edit your data locally by running this command:
+// npx prisma studio
+// npx prisma db seed
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisu jma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id         Int      @id @default(autoincrement())
+  name       String   @unique
+  icon       String?
+  color      String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  groups     Group[]
+  groupCount Int      @default(0)
+
+  @@map("categories")
+}
+
+model Group {
+  id         Int      @id @default(autoincrement())
+  name       String
+  slug       String
+  categoryId Int
+  Category   Category @relation(fields: [categoryId], references: [id])
+  members    Int      @default(0)
+  lastActive DateTime @default(now())
+  trending   Boolean  @default(false)
+  verified   Boolean  @default(false)
+  // Groups should hold an array of conversations
+  // conversations Conversation[] @relation("GroupConversations")
+
+  @@map("groups")
+}
+
+model User {
+  id             Int    @id @default(autoincrement())
+  username       String
+  email          String @unique
+  hashedPassword String
+
+  messageSent     Message[] @relation("messageSent")
+  messageReceived Message[] @relation("messageReceived")
+
+  conversations Conversation[] @relation("UserConversations")
+}
+
+model Conversation {
+  id           Int       @id @default(autoincrement())
+  title        String
+  messages     Message[]
+  participants User[]    @relation("UserConversations")
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@map("conversations")
+}
+
+model Message {
+  id             Int    @id @default(autoincrement())
+  content        String
+  senderId       Int
+  receiverId     Int
+  conversationId Int
+
+  receiver     User         @relation("messageReceived", fields: [receiverId], references: [id], onDelete: Cascade)
+  sender       User         @relation("messageSent", fields: [senderId], references: [id], onDelete: Cascade)
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  status    MessageStatus @default(PENDING)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  @@map("messages")
+}
+
+enum MessageStatus {
+  PENDING
+  SENT
+  DELIVERED
+}

@@ -204,6 +204,7 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
@@ -214,7 +215,7 @@ const config = {
   },
   "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\n// Run the following command to create and apply a migration:\n// npx prisma migrate dev --name init\n// View and edit your data locally by running this command:\n// npx prisma studio\n// npx prisma db seed\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel Category {\n  id         Int      @id @default(autoincrement())\n  name       String   @unique\n  icon       String?\n  color      String?\n  createdAt  DateTime @default(now())\n  updatedAt  DateTime @updatedAt\n  groups     Group[]\n  groupCount Int      @default(0)\n\n  @@map(\"categories\")\n}\n\nmodel Group {\n  id         Int      @id @default(autoincrement())\n  name       String\n  slug       String\n  categoryId Int\n  Category   Category @relation(fields: [categoryId], references: [id])\n  members    Int      @default(0)\n  lastActive DateTime @default(now())\n  trending   Boolean  @default(false)\n  verified   Boolean  @default(false)\n\n  @@map(\"groups\")\n}\n\nmodel User {\n  id             Int    @id @default(autoincrement())\n  username       String\n  email          String @unique\n  hashedPassword String\n\n  messageSent     Message[] @relation(\"messageSent\")\n  messageReceived Message[] @relation(\"messageReceived\")\n\n  conversations Conversation[] @relation(\"UserConversations\")\n}\n\nmodel Conversation {\n  id           Int       @id @default(autoincrement())\n  title        String\n  messages     Message[]\n  participants User[]    @relation(\"UserConversations\")\n  createdAt    DateTime  @default(now())\n  updatedAt    DateTime  @updatedAt\n\n  @@map(\"conversations\")\n}\n\nmodel Message {\n  id             Int    @id @default(autoincrement())\n  content        String\n  senderId       Int\n  receiverId     Int\n  conversationId Int\n\n  receiver     User         @relation(\"messageReceived\", fields: [receiverId], references: [id], onDelete: Cascade)\n  sender       User         @relation(\"messageSent\", fields: [senderId], references: [id], onDelete: Cascade)\n  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)\n\n  status    MessageStatus @default(PENDING)\n  createdAt DateTime      @default(now())\n  updatedAt DateTime      @updatedAt\n\n  @@map(\"messages\")\n}\n\nenum MessageStatus {\n  PENDING\n  SENT\n  DELIVERED\n}\n",
   "inlineSchemaHash": "909760c4e0ca99bd6067825d0664fbb139ddbe6858912f363f7940a725602f84",
-  "copyEngine": false
+  "copyEngine": true
 }
 config.dirname = '/'
 

@@ -4,16 +4,16 @@
 import { createContext, useContext, useState } from 'react';
 
 type CategoryContextType = {
-    selectedCategory: string;
+    selectedCategory: number;
     searchQuery: string;
-    setSelectedCategory: (category: string) => void;
+    setSelectedCategory: (category: number) => void;
     setSearchQuery: (query: string) => void;
 };
 
 const CategoryContext = createContext<CategoryContextType | undefined>(undefined);
 
 export function CategoryProvider({ children }: { children: React.ReactNode }) {
-    const [selectedCategory, setSelectedCategory] = useState('lifestyle');
+    const [selectedCategory, setSelectedCategory] = useState(1);
     const [searchQuery, setSearchQuery] = useState('');
 
     return (

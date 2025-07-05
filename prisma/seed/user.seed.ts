@@ -1,7 +1,6 @@
 import { Prisma,PrismaClient } from "@/generated/prisma";
 import bcrypt from "bcryptjs";
 
-const prisma = new PrismaClient();
 
 export const seedUsers = async (prisma: PrismaClient) => {
   let usersData: Prisma.UserCreateInput[] = [];

@@ -3,6 +3,7 @@ import { seedCategory } from "./seed/category.seed";
 import { seedUsers } from "./seed/user.seed";
 import { seedConversations } from "./seed/conversation.seed";
 import { seedMessages } from "./seed/message.seed";
+import { seedGroup } from "./seed/group.seed";
 
 const prisma = new PrismaClient();
 
@@ -11,6 +12,7 @@ async function main() {
   // await seedUsers(prisma);
   // await seedConversations(prisma);
   // await seedMessages(prisma);
+  // await seedGroup(prisma);
   console.log("Seeding completed successfully.");
 }
 

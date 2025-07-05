@@ -1,47 +1,22 @@
 import React, { useState, useEffect } from "react";
-import {
-  Users,
-  Star,
-  Vote,
-  Gamepad2,
-  GraduationCap,
-  Briefcase,
-  Search,
-  Plus,
-  Settings,
-  Bell,
-} from "lucide-react";
+import { Search, Plus, Settings, Bell } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useCategory } from "@/contexts/category-context";
-import { cn } from "@/lib/utils";
+import CategoryIconComponent, {
+  categoryColors,
+  IconKey,
+} from "../CategoryIconComponent";
 
 import axios from "axios";
 
 interface Category {
-  id: string;
+  id: number;
   name: string;
   icon: string;
   color: string;
   groupCount: number;
 }
-
-const iconMap = {
-  users: Users,
-  star: Star,
-  vote: Vote,
-  gamepad2: Gamepad2,
-  graduationcap: GraduationCap,
-  briefcase: Briefcase,
-};
-const categoryColors = {
-  green: "bg-green-500",
-  yellow: "bg-yellow-500",
-  blue: "bg-blue-500",
-  indigo: "bg-indigo-500",
-  orange: "bg-orange-500",
-  purple: "bg-purple-500",
-};
 
 export function Sidebar() {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -92,30 +67,23 @@ export function Sidebar() {
           </h2>
           <div className="space-y-1">
             {categories.map((category) => {
-              const iconKey = category.icon.toLowerCase() as keyof typeof iconMap;
-              const IconComponent = iconMap[iconKey] || Users;
               return (
                 <Button
                   key={category.id}
                   variant={
-                    selectedCategory === category.name ? "secondary" : "ghost"
+                    selectedCategory === category.id ? "secondary" : "ghost"
                   }
                   className={`w-full justify-start gap-3 h-auto p-3 ${
-                    selectedCategory === category.name &&
+                    selectedCategory === category.id &&
                     "bg-primary/10 text-primary border border-primary/20"
                   }`}
-                  onClick={() => setSelectedCategory(category.name)}
+                  onClick={() => setSelectedCategory(category.id)}
                 >
-                  <div
-                    className={cn(
-                      `p-2 rounded-lg text-white`,
-                      categoryColors[
-                        category.color as keyof typeof categoryColors
-                      ]
-                    )}
-                  >
-                    <IconComponent className="w-5 h-5" />
-                  </div>
+                  <CategoryIconComponent
+                    iconKey={category.icon.toLowerCase() as IconKey}
+                    color={category.color as keyof typeof categoryColors}
+                  />
+
                   <div className="flex-1 text-left">
                     <div className="font-medium">{category.name}</div>
                     <div className="text-sm text-muted-foreground">

@@ -12,7 +12,7 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
+  output   = "../src/generated/prisu jma"
 }
 
 datasource db {
@@ -43,6 +43,8 @@ model Group {
   lastActive DateTime @default(now())
   trending   Boolean  @default(false)
   verified   Boolean  @default(false)
+  // Groups should hold an array of conversations
+  // conversations Conversation[] @relation("GroupConversations")
 
   @@map("groups")
 }

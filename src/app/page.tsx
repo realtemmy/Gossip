@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import Link from "next/link";
 import { Users, Hash, MessageCircle, TrendingUp, Crown } from "lucide-react";
 import { useCategory } from "../contexts/category-context";
 import { Button } from "@/components/ui/button";
@@ -18,6 +19,7 @@ interface ChatGroup {
   id: string;
   name: string;
   members: number;
+  slug: string;
   lastActive: string;
   trending?: boolean;
   verified?: boolean;
@@ -94,57 +96,58 @@ export default function HomePage() {
             {category?.groups.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {category.groups.map((group) => (
-                  <Card
-                    key={group.id}
-                    className="hover:shadow-lg transition-all duration-200 cursor-pointer group"
-                  >
-                    <CardContent className="p-6">
-                      <div className="flex items-start justify-between mb-4">
-                        <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-                          <Hash className="w-6 h-6 text-white" />
+                  <Link href={`/${group.slug}`} key={group.id}>
+                    <Card
+                      className="hover:shadow-lg transition-all duration-200 cursor-pointer group"
+                    >
+                      <CardContent className="p-6">
+                        <div className="flex items-start justify-between mb-4">
+                          <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                            <Hash className="w-6 h-6 text-white" />
+                          </div>
+                          <div className="flex gap-1">
+                            {group.trending && (
+                              <Badge
+                                variant="secondary"
+                                className="gap-1 bg-red-100 text-red-700"
+                              >
+                                <TrendingUp className="w-3 h-3" />
+                                Trending
+                              </Badge>
+                            )}
+                            {group.verified && (
+                              <Badge
+                                variant="secondary"
+                                className="gap-1 bg-blue-100 text-blue-700"
+                              >
+                                <Crown className="w-3 h-3" />
+                                Verified
+                              </Badge>
+                            )}
+                          </div>
                         </div>
-                        <div className="flex gap-1">
-                          {group.trending && (
-                            <Badge
-                              variant="secondary"
-                              className="gap-1 bg-red-100 text-red-700"
-                            >
-                              <TrendingUp className="w-3 h-3" />
-                              Trending
-                            </Badge>
-                          )}
-                          {group.verified && (
-                            <Badge
-                              variant="secondary"
-                              className="gap-1 bg-blue-100 text-blue-700"
-                            >
-                              <Crown className="w-3 h-3" />
-                              Verified
-                            </Badge>
-                          )}
-                        </div>
-                      </div>
 
-                      <h3 className="font-semibold mb-2 group-hover:text-primary transition-colors">
-                        {group.name}
-                      </h3>
+                        <h3 className="font-semibold mb-2 group-hover:text-primary transition-colors">
+                          {group.name}
+                        </h3>
 
-                      <div className="flex items-center justify-between text-sm text-muted-foreground mb-4">
-                        <div className="flex items-center gap-1">
-                          <Users className="w-4 h-4" />
-                          {formatMembers(group.members)} members
+                        <div className="flex items-center justify-between text-sm text-muted-foreground mb-4">
+                          <div className="flex items-center gap-1">
+                            <Users className="w-4 h-4" />
+                            {formatMembers(group.members)} members
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <MessageCircle className="w-4 h-4" />
+                            {timeAgo(group.lastActive)}
+                          </div>
                         </div>
-                        <div className="flex items-center gap-1">
-                          <MessageCircle className="w-4 h-4" />
-                          {timeAgo(group.lastActive)}
-                        </div>
-                      </div>
 
-                      <Button className="w-full transition-all">
-                        View Channel
-                      </Button>
-                    </CardContent>
-                  </Card>
+                        <Button className="w-full transition-all">
+                          View Channel
+                        </Button>
+                      </CardContent>
+                    </Card>
+                  </Link>
                 ))}
               </div>
             ) : searchQuery ? (

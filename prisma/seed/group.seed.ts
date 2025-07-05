@@ -30,32 +30,96 @@ export const seedGroup = async (prisma: PrismaClient) => {
   const groupData: Prisma.GroupCreateManyInput[] = [];
   const toAdd = [
     {
-      name: "Fitness Enthusiasts",
-      lastActive: "2m ago",
-      category: 1,
-      trending: true,
-    },
-    {
-      name: "Healthy Cooking",
-      members: 8934,
-      category: 1,
-      lastActive: "5m ago",
-    },
-    {
-      name: "Travel Stories",
-      lastActive: "1h ago",
-      category: 1,
+      category: 3,
+      name: "Global Politics",
+      lastActive: "4m ago",
       verified: true,
     },
     {
-      name: "Minimalist Living",
-      lastActive: "3h ago",
-      category: 1,
+      category: 3,
+      name: "Policy Discussions",
+      lastActive: "12m ago",
     },
     {
-      name: "Photography Tips",
-      lastActive: "45m ago",
-      category: 1,
+      category: 3,
+      name: "Election Updates",
+      lastActive: "8m ago",
+      trending: true,
+    },
+    {
+      category: 3,
+      name: "Political Theory",
+      lastActive: "35m ago",
+    },
+    {
+      category: 3,
+      name: "Local Government",
+      lastActive: "2h ago",
+    },
+    {
+      category: 4,
+      name: "RPG Masters",
+      trending: true,
+    },
+    {
+      category: 4,
+      name: "FPS Arena",
+      lastActive: "2m ago",
+      verified: true,
+    },
+    {
+      category: 4,
+      name: "Indie Game Lovers",
+      members: 12456,
+    },
+    {
+      category: 4,
+      name: "Retro Gaming",
+    },
+    {
+      category: 4,
+      name: "Mobile Gaming",
+    },
+    {
+      category: 5,
+      name: "Computer Science Hub",
+      verified: true,
+    },
+    {
+      category: 5,
+      name: "Language Exchange",
+      trending: true,
+    },
+    { category: 5, name: "Study Groups" },
+    {
+      category: 5,
+      name: "Online Courses",
+    },
+    {
+      category: 5,
+      name: "Academic Research",
+    },
+    {
+      category: 6,
+      name: "Startup Founders",
+      verified: true,
+    },
+    {
+      category: 6,
+      name: "Marketing Strategies",
+    },
+    {
+      category: 6,
+      name: "Freelancers United",
+      trending: true,
+    },
+    {
+      category: 6,
+      name: "Investment Club",
+    },
+    {
+      category: 6,
+      name: "Remote Work Tips",
     },
   ];
 

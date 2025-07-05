@@ -15,7 +15,7 @@ interface Category {
   name: string;
   icon: string;
   color: string;
-  groupCount: number;
+  count: number;
 }
 
 export function Sidebar() {
@@ -87,7 +87,7 @@ export function Sidebar() {
                   <div className="flex-1 text-left">
                     <div className="font-medium">{category.name}</div>
                     <div className="text-sm text-muted-foreground">
-                      {category.groupCount} channels
+                      {category.count ? category.count : 0} groups
                     </div>
                   </div>
                 </Button>

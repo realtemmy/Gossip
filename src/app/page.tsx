@@ -31,7 +31,7 @@ interface Category {
   icon: string;
   color: string;
   groups: ChatGroup[];
-  groupCount: number;
+  count: number;
 }
 
 
@@ -81,7 +81,7 @@ export default function HomePage() {
               <div>
                 <h1 className="text-2xl font-bold">{category?.name}</h1>
                 <p className="text-muted-foreground">
-                  {category?.groupCount} groups •{" "}
+                  {category?.count} groups •{" "}
                   {category?.groups
                     .reduce((acc, group) => acc + group.members, 0)
                     .toLocaleString()}{" "}

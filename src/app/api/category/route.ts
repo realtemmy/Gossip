@@ -5,11 +5,24 @@ const prisma = new PrismaClient();
 
 export const GET = async () => {
   try {
-    const categories = await prisma.category.findMany();
-    return NextResponse.json(categories);
+    const categories = await prisma.category.findMany({
+      include: {
+        _count: {
+          select: { groups: true },
+        },
+      },
+    });
+    const formattedCategory = categories.map((category) => ({
+      id: category.id,
+      name: category.name,
+      icon: category.icon,
+      color: category.color,
+      count: category._count.groups,
+    }));
+    return NextResponse.json(formattedCategory, { status: 200 });
   } catch (error) {
     return NextResponse.json(
-      { error: "Failed to fetch categories" },
+      { error: `Failed to fetch categories: ${error?.message}` },
       { status: 500 }
     );
   }
@@ -42,4 +55,4 @@ export const POST = async (req: NextRequest) => {
       { status: 500 }
     );
   }
-}
+};

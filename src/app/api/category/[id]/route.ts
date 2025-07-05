@@ -8,7 +8,7 @@ export  const GET = async (
   { params }: { params: { id: string } }
 ) => {
   const { id } = await params;
-  console.log("Fetching category with name:", id);
+  // console.log("Fetching category with name:", id);
 
   if (!id) {
     return NextResponse.json(

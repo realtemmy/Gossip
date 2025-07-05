@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { Search, Plus, Settings, Bell } from "lucide-react";
+import React from "react";
+import { useQuery } from "@tanstack/react-query";
+import { Search, Plus, Settings, Bell, Loader } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useCategory } from "@/contexts/category-context";
@@ -19,18 +20,23 @@ interface Category {
 }
 
 export function Sidebar() {
-  const [categories, setCategories] = useState<Category[]>([]);
-  // Fetch categories from the API
-  useEffect(() => {
-    const fetchCategories = async () => {
+  const {
+    data: categories,
+    isLoading,
+    error,
+    isError
+  } = useQuery<Category[]>({
+    queryKey: ["categories"],
+    queryFn: async () => {
       const response = await axios.get("/api/category");
-      setCategories(response.data);
-    };
-    fetchCategories();
-  }, []);
+      return response.data;
+    },
+  });
 
   const { searchQuery, selectedCategory, setSearchQuery, setSelectedCategory } =
     useCategory();
+
+  if (error) return <div>Error loading categories</div>;
   return (
     <div className="w-96 bg-card border-r flex flex-col h-screen">
       {/* Header */}
@@ -66,8 +72,16 @@ export function Sidebar() {
             Categories
           </h2>
           <div className="space-y-1">
-            {categories.map((category) => {
-              return (
+            {isLoading ? (
+              <div className="flex items-center justify-center h-12">
+                <Loader className="animate-spin w-5 h-5 text-muted-foreground" />
+              </div>
+            ) : isError ? (
+              <div className="text-red-500 text-sm">
+                Failed to load categories
+              </div>
+            ) : (
+              categories?.map((category) => (
                 <Button
                   key={category.id}
                   variant={
@@ -91,8 +105,8 @@ export function Sidebar() {
                     </div>
                   </div>
                 </Button>
-              );
-            })}
+              ))
+            )}
           </div>
         </div>
       </div>

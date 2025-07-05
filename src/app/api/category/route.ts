@@ -21,8 +21,9 @@ export const GET = async () => {
     }));
     return NextResponse.json(formattedCategory, { status: 200 });
   } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
     return NextResponse.json(
-      { error: `Failed to fetch categories: ${error?.message}` },
+      { error: `Failed to fetch categories: ${errorMessage}` },
       { status: 500 }
     );
   }

@@ -1,18 +1,6 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
-// Run the following command to create and apply a migration:
-// npx prisma migrate dev --name init
-// View and edit your data locally by running this command:
-// npx prisma studio
-// npx prisma db seed
-
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisu jma"
+  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -21,73 +9,81 @@ datasource db {
 }
 
 model Category {
-  id          Int      @id @default(autoincrement())
-  name        String   @unique
-  icon        String?
-  color       String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  groups      Group[]
-  groupCount  Int      @default(0)
+  id         Int      @id @default(autoincrement())
+  name       String   @unique
+  icon       String?
+  color      String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  groupCount Int      @default(0)
+  groups     Group[]
 
   @@map("categories")
 }
 
 model Group {
-  id         Int       @id @default(autoincrement())
-  name       String
-  slug       String
-  categoryId Int
-  Category   Category @relation(fields: [categoryId], references: [id])
-  members    Int      @default(0)
-  lastActive DateTime @default(now())
-  trending   Boolean  @default(false)
-  verified   Boolean  @default(false)
-  // Groups should hold an array of conversations
-  // conversations Conversation[] @relation("GroupConversations")
+  id            Int            @id @default(autoincrement())
+  name          String
+  slug          String
+  categoryId    Int
+  members       Int            @default(0)
+  lastActive    DateTime       @default(now())
+  trending      Boolean        @default(false)
+  verified      Boolean        @default(false)
+  conversations Conversation[]
+  Category      Category       @relation(fields: [categoryId], references: [id])
 
   @@map("groups")
 }
 
-model User {
-  id             Int    @id @default(autoincrement())
-  username       String
-  email          String @unique
-  hashedPassword String
-
-  messageSent     Message[] @relation("messageSent")
-  messageReceived Message[] @relation("messageReceived")
-
-  conversations Conversation[] @relation("UserConversations")
-}
-
 model Conversation {
-  id           Int       @id @default(autoincrement())
-  title        String
-  messages     Message[]
-  participants User[]    @relation("UserConversations")
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
+  id                Int                 @id @default(autoincrement())
+  title             String
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  group_id          Int
+  UserConversations UserConversations[]
+  groups            Group               @relation(fields: [group_id], references: [id], onDelete: Cascade)
+  messages          Message[]
 
   @@map("conversations")
 }
 
+model User {
+  id                Int                 @id @default(autoincrement())
+  username          String
+  email             String              @unique
+  hashedPassword    String
+  UserConversations UserConversations[]
+  messageReceived   Message[]           @relation("messageReceived")
+  messageSent       Message[]           @relation("messageSent")
+}
+
 model Message {
-  id             Int    @id @default(autoincrement())
+  id             Int           @id @default(autoincrement())
   content        String
   senderId       Int
   receiverId     Int
   conversationId Int
-
-  receiver     User         @relation("messageReceived", fields: [receiverId], references: [id], onDelete: Cascade)
-  sender       User         @relation("messageSent", fields: [senderId], references: [id], onDelete: Cascade)
-  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
-
-  status    MessageStatus @default(PENDING)
-  createdAt DateTime      @default(now())
-  updatedAt DateTime      @updatedAt
+  status         MessageStatus @default(PENDING)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  conversation   Conversation  @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  receiver       User          @relation("messageReceived", fields: [receiverId], references: [id], onDelete: Cascade)
+  sender         User          @relation("messageSent", fields: [senderId], references: [id], onDelete: Cascade)
 
   @@map("messages")
+}
+
+model UserConversations {
+  A             Int
+  B             Int
+  conversations Conversation @relation(fields: [A], references: [id], onDelete: Cascade)
+  User          User         @relation(fields: [B], references: [id], onDelete: Cascade)
+
+  @@id([A, B], map: "_UserConversations_AB_pkey")
+  @@index([B], map: "_UserConversations_B_index")
+  @@map("_UserConversations")
 }
 
 enum MessageStatus {

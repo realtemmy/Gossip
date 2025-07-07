@@ -8,11 +8,12 @@ import { seedGroup } from "./seed/group.seed";
 const prisma = new PrismaClient();
 
 async function main() {
-  // await seedCategory(prisma);
+  await seedCategory(prisma);
+  await seedGroup(prisma);
   // await seedUsers(prisma);
-  // await seedConversations(prisma);
+  await seedConversations(prisma);
   // await seedMessages(prisma);
-  // await seedGroup(prisma);
+  
   console.log("Seeding completed successfully.");
 }
 

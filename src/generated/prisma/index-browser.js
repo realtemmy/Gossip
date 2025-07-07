@@ -141,18 +141,19 @@ exports.Prisma.GroupScalarFieldEnum = {
   verified: 'verified'
 };
 
+exports.Prisma.ConversationScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  group_id: 'group_id'
+};
+
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   username: 'username',
   email: 'email',
   hashedPassword: 'hashedPassword'
-};
-
-exports.Prisma.ConversationScalarFieldEnum = {
-  id: 'id',
-  title: 'title',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.MessageScalarFieldEnum = {
@@ -164,6 +165,11 @@ exports.Prisma.MessageScalarFieldEnum = {
   status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.UserConversationsScalarFieldEnum = {
+  A: 'A',
+  B: 'B'
 };
 
 exports.Prisma.SortOrder = {
@@ -189,9 +195,10 @@ exports.MessageStatus = exports.$Enums.MessageStatus = {
 exports.Prisma.ModelName = {
   Category: 'Category',
   Group: 'Group',
-  User: 'User',
   Conversation: 'Conversation',
-  Message: 'Message'
+  User: 'User',
+  Message: 'Message',
+  UserConversations: 'UserConversations'
 };
 
 /**

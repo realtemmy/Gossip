@@ -1,32 +1,33 @@
 import { Prisma, PrismaClient } from "@/generated/prisma";
-import slugify from "slugify";
 
-const prisma = new PrismaClient();
 export async function seedConversations(prisma: PrismaClient) {
-  const conversationData: Prisma.ConversationCreateInput[] = [];
+  const conversationData: Prisma.ConversationCreateManyInput[] = [];
 
   const toAdd = [
     {
       title: "General Discussion",
-      participants: [1, 4],
+      groupId: 1,
     },
     {
       title: "D6 Gist",
-      participants: [1, 4],
+      groupId: 1,
     },
     {
       title: "Technology Talk",
-      participants: [1, 4],
+      groupId: 1,
     },
   ];
 
   toAdd.forEach((conversation) => {
     conversationData.push({
+      group_id: conversation.groupId,
       title: conversation.title,
     });
   });
 
   await prisma.conversation.createMany({
     data: conversationData,
+    skipDuplicates: true,
   });
+  // await prisma.conversation.deleteMany();
 }

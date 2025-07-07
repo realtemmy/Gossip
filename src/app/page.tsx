@@ -2,7 +2,15 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
-import { Users, Hash, MessageCircle, TrendingUp, Crown, Loader, Loader2 } from "lucide-react";
+import {
+  Users,
+  Hash,
+  MessageCircle,
+  TrendingUp,
+  Crown,
+  Loader,
+  Loader2,
+} from "lucide-react";
 import { useCategory } from "../contexts/category-context";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -61,7 +69,6 @@ export default function HomePage() {
   return (
     <div className="flex bg-background">
       <Sidebar />
-
       <div className="h-screen overflow-y-scroll w-full">
         {/* Handle loading */}
         {isLoading && (
@@ -92,7 +99,7 @@ export default function HomePage() {
         )}
 
         {/* Render main content when category exists */}
-        {category && (
+        {category ? (
           <>
             {/* Category Header */}
             <div className="bg-card border-b p-6">
@@ -118,7 +125,22 @@ export default function HomePage() {
 
             {/* Groups Grid */}
             <div className="flex-1 overflow-y-auto p-6">
-              {category.groups.length > 0 ? (
+              {category.groups.length === 0 && !searchQuery ? (
+                <div className="flex items-center justify-center h-full">
+                  <div className="text-center p-6">
+                    <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-4">
+                      <Users className="w-6 h-6 text-muted-foreground" />
+                    </div>
+                    <h3 className="text-lg font-medium mb-2">
+                      No groups found
+                    </h3>
+                    <p className="text-muted-foreground">
+                      Try adjusting your search terms or explore other
+                      categories.
+                    </p>
+                  </div>
+                </div>
+              ) : category.groups.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {category.groups.map((group) => (
                     <Link href={`/${group.slug}`} key={group.id}>
@@ -186,6 +208,8 @@ export default function HomePage() {
               ) : null}
             </div>
           </>
+        ) : (
+          <div>No Groups in category yet</div>
         )}
       </div>
     </div>

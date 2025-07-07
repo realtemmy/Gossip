@@ -30,9 +30,49 @@ export const seedGroup = async (prisma: PrismaClient) => {
   const groupData: Prisma.GroupCreateManyInput[] = [];
   const toAdd = [
     {
+      category: 1,
+      name: "Fitness Enthusiasts",
+      trending: true,
+    },
+    { category: 1, name: "Healthy Cooking" },
+    {
+      category: 1,
+      name: "Travel Stories",
+      verified: true,
+    },
+    {
+      category: 1,
+      name: "Minimalist Living",
+    },
+    {
+      category: 1,
+      name: "Photography Tips",
+    },
+    {
+      name: "Hollywood Buzz",
+      category: 2,
+      trending: true,
+    },
+    {
+      name: "Music Artists Fan Club",
+      category: 2,
+      verified: true,
+    },
+    {
+      name: "Reality TV Discussions",
+      category: 2,
+    },
+    {
+      name: "Celebrity Fashion",
+      category: 2,
+    },
+    {
+      name: "Award Show Commentary",
+      category: 2,
+    },
+    {
       category: 3,
       name: "Global Politics",
-      lastActive: "4m ago",
       verified: true,
     },
     {
@@ -127,7 +167,7 @@ export const seedGroup = async (prisma: PrismaClient) => {
     groupData.push({
       name: group.name,
       slug: slugify(group.name, { lower: true }),
-      categoryId: group.category || 1,
+      categoryId: group.category,
       members: group.members || 0,
       lastActive: parseRelativeTime(group.lastActive),
       trending: group.trending || false,

@@ -212,7 +212,6 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
-  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
@@ -223,7 +222,7 @@ const config = {
   },
   "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel Category {\n  id         Int      @id @default(autoincrement())\n  name       String   @unique\n  icon       String?\n  color      String?\n  createdAt  DateTime @default(now())\n  updatedAt  DateTime @updatedAt\n  groupCount Int      @default(0)\n  groups     Group[]\n\n  @@map(\"categories\")\n}\n\nmodel Group {\n  id            Int            @id @default(autoincrement())\n  name          String\n  slug          String\n  categoryId    Int\n  members       Int            @default(0)\n  lastActive    DateTime       @default(now())\n  trending      Boolean        @default(false)\n  verified      Boolean        @default(false)\n  conversations Conversation[]\n  Category      Category       @relation(fields: [categoryId], references: [id])\n\n  @@map(\"groups\")\n}\n\nmodel Conversation {\n  id                Int                 @id @default(autoincrement())\n  title             String\n  createdAt         DateTime            @default(now())\n  updatedAt         DateTime            @updatedAt\n  group_id          Int\n  UserConversations UserConversations[]\n  groups            Group               @relation(fields: [group_id], references: [id], onDelete: Cascade)\n  messages          Message[]\n\n  @@map(\"conversations\")\n}\n\nmodel User {\n  id                Int                 @id @default(autoincrement())\n  username          String\n  email             String              @unique\n  hashedPassword    String\n  UserConversations UserConversations[]\n  messageReceived   Message[]           @relation(\"messageReceived\")\n  messageSent       Message[]           @relation(\"messageSent\")\n}\n\nmodel Message {\n  id             Int           @id @default(autoincrement())\n  content        String\n  senderId       Int\n  receiverId     Int\n  conversationId Int\n  status         MessageStatus @default(PENDING)\n  createdAt      DateTime      @default(now())\n  updatedAt      DateTime      @updatedAt\n  conversation   Conversation  @relation(fields: [conversationId], references: [id], onDelete: Cascade)\n  receiver       User          @relation(\"messageReceived\", fields: [receiverId], references: [id], onDelete: Cascade)\n  sender         User          @relation(\"messageSent\", fields: [senderId], references: [id], onDelete: Cascade)\n\n  @@map(\"messages\")\n}\n\nmodel UserConversations {\n  A             Int\n  B             Int\n  conversations Conversation @relation(fields: [A], references: [id], onDelete: Cascade)\n  User          User         @relation(fields: [B], references: [id], onDelete: Cascade)\n\n  @@id([A, B], map: \"_UserConversations_AB_pkey\")\n  @@index([B], map: \"_UserConversations_B_index\")\n  @@map(\"_UserConversations\")\n}\n\nenum MessageStatus {\n  PENDING\n  SENT\n  DELIVERED\n}\n",
   "inlineSchemaHash": "febdee41ce4f9d6a2e9f90ddfba2b36935ab7c6422944e461dfd4d9aa96fa148",
-  "copyEngine": true
+  "copyEngine": false
 }
 
 const fs = require('fs')
@@ -260,9 +259,3 @@ const PrismaClient = getPrismaClient(config)
 exports.PrismaClient = PrismaClient
 Object.assign(exports, Prisma)
 
-// file annotations for bundling tools to include these files
-path.join(__dirname, "query_engine-windows.dll.node");
-path.join(process.cwd(), "src/generated/prisma/query_engine-windows.dll.node")
-// file annotations for bundling tools to include these files
-path.join(__dirname, "schema.prisma");
-path.join(process.cwd(), "src/generated/prisma/schema.prisma")

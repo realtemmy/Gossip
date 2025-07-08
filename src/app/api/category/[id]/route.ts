@@ -29,7 +29,7 @@ export  const GET = async (
 
     if (!category) {
       return NextResponse.json(
-        { error: `Category '${name}' not found.` },
+        { error: `Category with ID: ${id} not found.` },
         { status: 404 }
       );
     }

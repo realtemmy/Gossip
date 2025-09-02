@@ -4,6 +4,8 @@ import React from "react";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { CategoryProvider } from "../contexts/category-context";
+import { ConversationProvider } from "@/contexts/conversation-context";
+
 import ReactQueryProvider from "@/lib/providers/react-query-provider";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -23,7 +25,9 @@ export default function RootLayout({
       <body className={inter.className}>
         <ReactQueryProvider>
           <CategoryProvider>
-            <div className="h-screen">{children}</div>
+            <ConversationProvider>
+              <div className="h-screen">{children}</div>
+            </ConversationProvider>
           </CategoryProvider>
         </ReactQueryProvider>
       </body>

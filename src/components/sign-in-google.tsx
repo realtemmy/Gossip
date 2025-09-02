@@ -2,7 +2,7 @@ import { FcGoogle } from "react-icons/fc";
 import { signIn } from "@/auth"
 import { Button } from "./ui/button";
 
-export default function SignIn() {
+export default function SignInGoogle() {
   return (
     <form
      className="w-full"
@@ -13,7 +13,6 @@ export default function SignIn() {
     >
       <Button variant="outline" className="w-full">
         <FcGoogle className="mr-2 size-5" />
-        Authenticate with Google
       </Button>
     </form>
   )

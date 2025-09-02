@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
+import { useConversation } from "@/contexts/conversation-context";
+
 import axios from "axios";
 
 interface Group {
@@ -35,29 +37,8 @@ interface ChatLayoutProps {
 export default function ChatLayout({ children }: ChatLayoutProps) {
   const params = useParams();
   const { group } = params;
-  const [activeChannel, setActiveChannel] = useState(0);
-
-  // const [channels] = useState<Group[]>([
-  //   {
-  //     id: "general",
-  //     name: "general",
-  //     type: "channel",
-  //     members: 42,
-  //     isActive: true,
-  //   },
-  //   { id: "design", name: "design", type: "channel", members: 28, unread: 3 },
-  //   { id: "engineering", name: "engineering", type: "channel", members: 15 },
-  //   {
-  //     id: "marketing",
-  //     name: "marketing",
-  //     type: "channel",
-  //     members: 8,
-  //     unread: 1,
-  //   },
-  //   { id: "random", name: "random", type: "channel", members: 35 },
-  //   { id: "sarah", name: "Sarah Chen", type: "dm" },
-  //   { id: "mike", name: "Mike Rodriguez", type: "dm", unread: 2 },
-  // ]);
+  const [activeChannel, setActiveChannel] = useState("");
+  const { setSelectedConversation } = useConversation();
 
   const { data, isLoading, isError, error } = useQuery<Group>({
     queryKey: ["conversations", group],
@@ -104,9 +85,8 @@ export default function ChatLayout({ children }: ChatLayoutProps) {
             />
           </div>
         </div>
-        
 
-        {/* Channels */}
+        {/* Groups */}
         <ScrollArea className="flex-1">
           <div className="px-4 py-2">
             <div className="flex items-center justify-between mb-3">
@@ -122,31 +102,45 @@ export default function ChatLayout({ children }: ChatLayoutProps) {
               </Button>
             </div>
             <div className="space-y-1">
-              {data.conversations?.map((convo, index) => (
-                <Button
-                  key={convo.id}
-                  variant="ghost"
-                  onClick={() => setActiveChannel(index)}
-                  className={`w-full justify-between px-3 py-2 h-auto text-left font-normal ${
-                    activeChannel === index
-                      ? "bg-blue-600 text-white hover:bg-blue-600"
-                      : "text-slate-300 hover:bg-slate-800 hover:text-white"
-                  }`}
-                >
-                  <div className="flex items-center">
-                    <Hash className="mr-2 h-4 w-4" />
-                    <span className="text-sm">{convo.title}</span>
-                  </div>
-                  {convo.unread && (
-                    <Badge
-                      variant="destructive"
-                      className="h-5 min-w-[20px] text-xs px-1.5"
-                    >
-                      {convo.unread}
-                    </Badge>
-                  )}
-                </Button>
-              ))}
+              {data &&
+              Array.isArray(data.conversations) &&
+              data.conversations.length > 0 ? (
+                data.conversations.map((convo) => (
+                  <Button
+                    key={convo.id}
+                    variant="ghost"
+                    onClick={() => {
+                      setActiveChannel(convo.title);
+                      setSelectedConversation({
+                        title: convo.title,
+                        id: convo.id,
+                      });
+                    }}
+                    className={`w-full justify-between px-3 py-2 h-auto text-left font-normal ${
+                      activeChannel === convo.title
+                        ? "bg-blue-600 text-white hover:bg-blue-600"
+                        : "text-slate-300 hover:bg-slate-800 hover:text-white"
+                    }`}
+                  >
+                    <div className="flex items-center">
+                      <Hash className="mr-2 h-4 w-4" />
+                      <span className="text-sm">{convo.title}</span>
+                    </div>
+                    {convo.unread && (
+                      <Badge
+                        variant="destructive"
+                        className="h-5 min-w-[20px] text-xs px-1.5"
+                      >
+                        {convo.unread}
+                      </Badge>
+                    )}
+                  </Button>
+                ))
+              ) : (
+                <div className="text-sm text-slate-500">
+                  No conversations found.
+                </div>
+              )}
             </div>
           </div>
 
@@ -163,35 +157,7 @@ export default function ChatLayout({ children }: ChatLayoutProps) {
                 <Plus className="h-4 w-4" />
               </Button>
             </div>
-            {/* <div className="space-y-1">
-              {channels
-                .filter((c) => c.type === "dm")
-                .map((channel) => (
-                  <Button
-                    key={channel.id}
-                    variant="ghost"
-                    onClick={() => setActiveChannel(channel.id)}
-                    className={`w-full justify-between px-3 py-2 h-auto text-left font-normal ${
-                      activeChannel === channel.id
-                        ? "bg-blue-600 text-white hover:bg-blue-600"
-                        : "text-slate-300 hover:bg-slate-800 hover:text-white"
-                    }`}
-                  >
-                    <div className="flex items-center">
-                      <div className="w-2 h-2 bg-green-400 rounded-full mr-3"></div>
-                      <span className="text-sm">{channel.name}</span>
-                    </div>
-                    {channel.unread && (
-                      <Badge
-                        variant="destructive"
-                        className="h-5 min-w-[20px] text-xs px-1.5"
-                      >
-                        {channel.unread}
-                      </Badge>
-                    )}
-                  </Button>
-                ))}
-            </div> */}
+
           </div>
         </ScrollArea>
       </div>

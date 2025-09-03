@@ -56,11 +56,9 @@ const Login = () => {
               <span className="text-sm text-gray-500">Or continue with</span>
               <div className="h-px flex-1 bg-gray-300"></div>
             </div>
-
-              
           </div>
-<SignInGoogle />
-              <SignInFacebook />
+          <SignInGoogle />
+          <SignInFacebook />
           <div className="my-4 text-sm text-slate-400">
             <p>
               Don't have an account?{" "}

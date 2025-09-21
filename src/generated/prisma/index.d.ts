@@ -3810,11 +3810,13 @@ export namespace Prisma {
   export type ConversationAvgAggregateOutputType = {
     id: number | null
     group_id: number | null
+    unread: number | null
   }
 
   export type ConversationSumAggregateOutputType = {
     id: number | null
     group_id: number | null
+    unread: number | null
   }
 
   export type ConversationMinAggregateOutputType = {
@@ -3823,6 +3825,7 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     group_id: number | null
+    unread: number | null
   }
 
   export type ConversationMaxAggregateOutputType = {
@@ -3831,6 +3834,7 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     group_id: number | null
+    unread: number | null
   }
 
   export type ConversationCountAggregateOutputType = {
@@ -3839,6 +3843,7 @@ export namespace Prisma {
     createdAt: number
     updatedAt: number
     group_id: number
+    unread: number
     _all: number
   }
 
@@ -3846,11 +3851,13 @@ export namespace Prisma {
   export type ConversationAvgAggregateInputType = {
     id?: true
     group_id?: true
+    unread?: true
   }
 
   export type ConversationSumAggregateInputType = {
     id?: true
     group_id?: true
+    unread?: true
   }
 
   export type ConversationMinAggregateInputType = {
@@ -3859,6 +3866,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     group_id?: true
+    unread?: true
   }
 
   export type ConversationMaxAggregateInputType = {
@@ -3867,6 +3875,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     group_id?: true
+    unread?: true
   }
 
   export type ConversationCountAggregateInputType = {
@@ -3875,6 +3884,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     group_id?: true
+    unread?: true
     _all?: true
   }
 
@@ -3970,6 +3980,7 @@ export namespace Prisma {
     createdAt: Date
     updatedAt: Date
     group_id: number
+    unread: number
     _count: ConversationCountAggregateOutputType | null
     _avg: ConversationAvgAggregateOutputType | null
     _sum: ConversationSumAggregateOutputType | null
@@ -3997,6 +4008,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     group_id?: boolean
+    unread?: boolean
     UserConversations?: boolean | Conversation$UserConversationsArgs<ExtArgs>
     groups?: boolean | GroupDefaultArgs<ExtArgs>
     messages?: boolean | Conversation$messagesArgs<ExtArgs>
@@ -4009,6 +4021,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     group_id?: boolean
+    unread?: boolean
     groups?: boolean | GroupDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["conversation"]>
 
@@ -4018,6 +4031,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     group_id?: boolean
+    unread?: boolean
     groups?: boolean | GroupDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["conversation"]>
 
@@ -4027,9 +4041,10 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     group_id?: boolean
+    unread?: boolean
   }
 
-  export type ConversationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "createdAt" | "updatedAt" | "group_id", ExtArgs["result"]["conversation"]>
+  export type ConversationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "createdAt" | "updatedAt" | "group_id" | "unread", ExtArgs["result"]["conversation"]>
   export type ConversationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     UserConversations?: boolean | Conversation$UserConversationsArgs<ExtArgs>
     groups?: boolean | GroupDefaultArgs<ExtArgs>
@@ -4056,6 +4071,7 @@ export namespace Prisma {
       createdAt: Date
       updatedAt: Date
       group_id: number
+      unread: number
     }, ExtArgs["result"]["conversation"]>
     composites: {}
   }
@@ -4487,6 +4503,7 @@ export namespace Prisma {
     readonly createdAt: FieldRef<"Conversation", 'DateTime'>
     readonly updatedAt: FieldRef<"Conversation", 'DateTime'>
     readonly group_id: FieldRef<"Conversation", 'Int'>
+    readonly unread: FieldRef<"Conversation", 'Int'>
   }
     
 
@@ -8366,7 +8383,8 @@ export namespace Prisma {
     title: 'title',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
-    group_id: 'group_id'
+    group_id: 'group_id',
+    unread: 'unread'
   };
 
   export type ConversationScalarFieldEnum = (typeof ConversationScalarFieldEnum)[keyof typeof ConversationScalarFieldEnum]
@@ -8664,6 +8682,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Conversation"> | Date | string
     updatedAt?: DateTimeFilter<"Conversation"> | Date | string
     group_id?: IntFilter<"Conversation"> | number
+    unread?: IntFilter<"Conversation"> | number
     UserConversations?: UserConversationsListRelationFilter
     groups?: XOR<GroupScalarRelationFilter, GroupWhereInput>
     messages?: MessageListRelationFilter
@@ -8675,6 +8694,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     group_id?: SortOrder
+    unread?: SortOrder
     UserConversations?: UserConversationsOrderByRelationAggregateInput
     groups?: GroupOrderByWithRelationInput
     messages?: MessageOrderByRelationAggregateInput
@@ -8689,6 +8709,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Conversation"> | Date | string
     updatedAt?: DateTimeFilter<"Conversation"> | Date | string
     group_id?: IntFilter<"Conversation"> | number
+    unread?: IntFilter<"Conversation"> | number
     UserConversations?: UserConversationsListRelationFilter
     groups?: XOR<GroupScalarRelationFilter, GroupWhereInput>
     messages?: MessageListRelationFilter
@@ -8700,6 +8721,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     group_id?: SortOrder
+    unread?: SortOrder
     _count?: ConversationCountOrderByAggregateInput
     _avg?: ConversationAvgOrderByAggregateInput
     _max?: ConversationMaxOrderByAggregateInput
@@ -8716,6 +8738,7 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Conversation"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Conversation"> | Date | string
     group_id?: IntWithAggregatesFilter<"Conversation"> | number
+    unread?: IntWithAggregatesFilter<"Conversation"> | number
   }
 
   export type UserWhereInput = {
@@ -9052,6 +9075,7 @@ export namespace Prisma {
     title: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    unread?: number
     UserConversations?: UserConversationsCreateNestedManyWithoutConversationsInput
     groups: GroupCreateNestedOneWithoutConversationsInput
     messages?: MessageCreateNestedManyWithoutConversationInput
@@ -9063,6 +9087,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     group_id: number
+    unread?: number
     UserConversations?: UserConversationsUncheckedCreateNestedManyWithoutConversationsInput
     messages?: MessageUncheckedCreateNestedManyWithoutConversationInput
   }
@@ -9071,6 +9096,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    unread?: IntFieldUpdateOperationsInput | number
     UserConversations?: UserConversationsUpdateManyWithoutConversationsNestedInput
     groups?: GroupUpdateOneRequiredWithoutConversationsNestedInput
     messages?: MessageUpdateManyWithoutConversationNestedInput
@@ -9082,6 +9108,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     group_id?: IntFieldUpdateOperationsInput | number
+    unread?: IntFieldUpdateOperationsInput | number
     UserConversations?: UserConversationsUncheckedUpdateManyWithoutConversationsNestedInput
     messages?: MessageUncheckedUpdateManyWithoutConversationNestedInput
   }
@@ -9092,12 +9119,14 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     group_id: number
+    unread?: number
   }
 
   export type ConversationUpdateManyMutationInput = {
     title?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    unread?: IntFieldUpdateOperationsInput | number
   }
 
   export type ConversationUncheckedUpdateManyInput = {
@@ -9106,6 +9135,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     group_id?: IntFieldUpdateOperationsInput | number
+    unread?: IntFieldUpdateOperationsInput | number
   }
 
   export type UserCreateInput = {
@@ -9548,11 +9578,13 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     group_id?: SortOrder
+    unread?: SortOrder
   }
 
   export type ConversationAvgOrderByAggregateInput = {
     id?: SortOrder
     group_id?: SortOrder
+    unread?: SortOrder
   }
 
   export type ConversationMaxOrderByAggregateInput = {
@@ -9561,6 +9593,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     group_id?: SortOrder
+    unread?: SortOrder
   }
 
   export type ConversationMinOrderByAggregateInput = {
@@ -9569,11 +9602,13 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     group_id?: SortOrder
+    unread?: SortOrder
   }
 
   export type ConversationSumOrderByAggregateInput = {
     id?: SortOrder
     group_id?: SortOrder
+    unread?: SortOrder
   }
 
   export type UserCountOrderByAggregateInput = {
@@ -10360,6 +10395,7 @@ export namespace Prisma {
     title: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    unread?: number
     UserConversations?: UserConversationsCreateNestedManyWithoutConversationsInput
     messages?: MessageCreateNestedManyWithoutConversationInput
   }
@@ -10369,6 +10405,7 @@ export namespace Prisma {
     title: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    unread?: number
     UserConversations?: UserConversationsUncheckedCreateNestedManyWithoutConversationsInput
     messages?: MessageUncheckedCreateNestedManyWithoutConversationInput
   }
@@ -10432,6 +10469,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Conversation"> | Date | string
     updatedAt?: DateTimeFilter<"Conversation"> | Date | string
     group_id?: IntFilter<"Conversation"> | number
+    unread?: IntFilter<"Conversation"> | number
   }
 
   export type CategoryUpsertWithoutGroupsInput = {
@@ -10751,6 +10789,7 @@ export namespace Prisma {
     title: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    unread?: number
     UserConversations?: UserConversationsCreateNestedManyWithoutConversationsInput
     groups: GroupCreateNestedOneWithoutConversationsInput
   }
@@ -10761,6 +10800,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     group_id: number
+    unread?: number
     UserConversations?: UserConversationsUncheckedCreateNestedManyWithoutConversationsInput
   }
 
@@ -10828,6 +10868,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    unread?: IntFieldUpdateOperationsInput | number
     UserConversations?: UserConversationsUpdateManyWithoutConversationsNestedInput
     groups?: GroupUpdateOneRequiredWithoutConversationsNestedInput
   }
@@ -10838,6 +10879,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     group_id?: IntFieldUpdateOperationsInput | number
+    unread?: IntFieldUpdateOperationsInput | number
     UserConversations?: UserConversationsUncheckedUpdateManyWithoutConversationsNestedInput
   }
 
@@ -10901,6 +10943,7 @@ export namespace Prisma {
     title: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    unread?: number
     groups: GroupCreateNestedOneWithoutConversationsInput
     messages?: MessageCreateNestedManyWithoutConversationInput
   }
@@ -10911,6 +10954,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     group_id: number
+    unread?: number
     messages?: MessageUncheckedCreateNestedManyWithoutConversationInput
   }
 
@@ -10956,6 +11000,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    unread?: IntFieldUpdateOperationsInput | number
     groups?: GroupUpdateOneRequiredWithoutConversationsNestedInput
     messages?: MessageUpdateManyWithoutConversationNestedInput
   }
@@ -10966,6 +11011,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     group_id?: IntFieldUpdateOperationsInput | number
+    unread?: IntFieldUpdateOperationsInput | number
     messages?: MessageUncheckedUpdateManyWithoutConversationNestedInput
   }
 
@@ -11043,12 +11089,14 @@ export namespace Prisma {
     title: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    unread?: number
   }
 
   export type ConversationUpdateWithoutGroupsInput = {
     title?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    unread?: IntFieldUpdateOperationsInput | number
     UserConversations?: UserConversationsUpdateManyWithoutConversationsNestedInput
     messages?: MessageUpdateManyWithoutConversationNestedInput
   }
@@ -11058,6 +11106,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    unread?: IntFieldUpdateOperationsInput | number
     UserConversations?: UserConversationsUncheckedUpdateManyWithoutConversationsNestedInput
     messages?: MessageUncheckedUpdateManyWithoutConversationNestedInput
   }
@@ -11067,6 +11116,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    unread?: IntFieldUpdateOperationsInput | number
   }
 
   export type UserConversationsCreateManyConversationsInput = {

@@ -10,7 +10,7 @@ export default async function SignInGoogle() {
      className="w-full"
       action={async () => {
         "use server"
-        await signIn("google")
+        await signIn("google");
       }}
     >
       <Button variant="outline" className="w-full">

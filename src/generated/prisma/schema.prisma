@@ -45,6 +45,7 @@ model Conversation {
   UserConversations UserConversations[]
   groups            Group               @relation(fields: [group_id], references: [id], onDelete: Cascade)
   messages          Message[]
+  unread            Int                 @default(0)
 
   @@map("conversations")
 }

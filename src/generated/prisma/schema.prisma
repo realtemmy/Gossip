@@ -37,54 +37,84 @@ model Group {
 }
 
 model Conversation {
-  id                Int                 @id @default(autoincrement())
-  title             String
-  createdAt         DateTime            @default(now())
-  updatedAt         DateTime            @updatedAt
-  group_id          Int
-  UserConversations UserConversations[]
-  groups            Group               @relation(fields: [group_id], references: [id], onDelete: Cascade)
-  messages          Message[]
-  unread            Int                 @default(0)
+  id        Int       @id @default(autoincrement())
+  title     String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  group_id  Int
+  groups    Group     @relation(fields: [group_id], references: [id], onDelete: Cascade)
+  messages  Message[]
+  unread    Int       @default(0)
 
   @@map("conversations")
 }
 
 model User {
-  id                Int                 @id @default(autoincrement())
-  username          String
-  email             String              @unique
-  hashedPassword    String
-  UserConversations UserConversations[]
-  messageReceived   Message[]           @relation("messageReceived")
-  messageSent       Message[]           @relation("messageSent")
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
+
+model Account {
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([provider, providerAccountId])
+}
+
+model Session {
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@id([identifier, token])
 }
 
 model Message {
   id             Int           @id @default(autoincrement())
   content        String
-  senderId       Int
-  receiverId     Int
+  senderId       String
+  receiverId     String
   conversationId Int
   status         MessageStatus @default(PENDING)
   createdAt      DateTime      @default(now())
   updatedAt      DateTime      @updatedAt
   conversation   Conversation  @relation(fields: [conversationId], references: [id], onDelete: Cascade)
-  receiver       User          @relation("messageReceived", fields: [receiverId], references: [id], onDelete: Cascade)
-  sender         User          @relation("messageSent", fields: [senderId], references: [id], onDelete: Cascade)
 
   @@map("messages")
-}
-
-model UserConversations {
-  A             Int
-  B             Int
-  conversations Conversation @relation(fields: [A], references: [id], onDelete: Cascade)
-  User          User         @relation(fields: [B], references: [id], onDelete: Cascade)
-
-  @@id([A, B], map: "_UserConversations_AB_pkey")
-  @@index([B], map: "_UserConversations_B_index")
-  @@map("_UserConversations")
 }
 
 enum MessageStatus {

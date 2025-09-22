@@ -51,20 +51,66 @@ model Conversation {
 }
 
 model User {
-  id                Int                 @id @default(autoincrement())
-  username          String
-  email             String              @unique
-  hashedPassword    String
-  UserConversations UserConversations[]
-  messageReceived   Message[]           @relation("messageReceived")
-  messageSent       Message[]           @relation("messageSent")
+  id            String          @id @default(cuid())
+  name          String?
+  email         String          @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+ 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Message Message[] @relation("messageReceived")
+
+  Message Message[] @relation("messageSent")
+}
+
+model Account {
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+ 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+ 
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+ 
+  @@id([provider, providerAccountId])
+}
+
+model Session {
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+ 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+ 
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+ 
+  @@id([identifier, token])
 }
 
 model Message {
   id             Int           @id @default(autoincrement())
   content        String
-  senderId       Int
-  receiverId     Int
+  senderId       String
+  receiverId     String
   conversationId Int
   status         MessageStatus @default(PENDING)
   createdAt      DateTime      @default(now())

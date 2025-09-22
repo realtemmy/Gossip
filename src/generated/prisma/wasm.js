@@ -146,7 +146,8 @@ exports.Prisma.ConversationScalarFieldEnum = {
   title: 'title',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  group_id: 'group_id'
+  group_id: 'group_id',
+  unread: 'unread'
 };
 
 exports.Prisma.UserScalarFieldEnum = {

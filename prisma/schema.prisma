@@ -37,34 +37,31 @@ model Group {
 }
 
 model Conversation {
-  id                Int                 @id @default(autoincrement())
-  title             String
-  createdAt         DateTime            @default(now())
-  updatedAt         DateTime            @updatedAt
-  group_id          Int
-  UserConversations UserConversations[]
-  groups            Group               @relation(fields: [group_id], references: [id], onDelete: Cascade)
-  messages          Message[]
-  unread     Int                 @default(0)
+  id        Int       @id @default(autoincrement())
+  title     String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  group_id  Int
+  groups    Group     @relation(fields: [group_id], references: [id], onDelete: Cascade)
+  messages  Message[]
+  unread    Int       @default(0)
 
   @@map("conversations")
 }
 
 model User {
-  id            String          @id @default(cuid())
+  id            String    @id @default(cuid())
   name          String?
-  email         String          @unique
-  emailVerified DateTime?
+  email         String    @unique
+  emailVerified Boolean @default(false)
   image         String?
   accounts      Account[]
   sessions      Session[]
- 
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  Message Message[] @relation("messageReceived")
-
-  Message Message[] @relation("messageSent")
+  @@map("users")
 }
 
 model Account {
@@ -79,12 +76,12 @@ model Account {
   scope             String?
   id_token          String?
   session_state     String?
- 
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
- 
+
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
- 
+
   @@id([provider, providerAccountId])
 }
 
@@ -93,16 +90,16 @@ model Session {
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
- 
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
- 
+
 model VerificationToken {
   identifier String
   token      String
   expires    DateTime
- 
+
   @@id([identifier, token])
 }
 
@@ -116,21 +113,8 @@ model Message {
   createdAt      DateTime      @default(now())
   updatedAt      DateTime      @updatedAt
   conversation   Conversation  @relation(fields: [conversationId], references: [id], onDelete: Cascade)
-  receiver       User          @relation("messageReceived", fields: [receiverId], references: [id], onDelete: Cascade)
-  sender         User          @relation("messageSent", fields: [senderId], references: [id], onDelete: Cascade)
 
   @@map("messages")
-}
-
-model UserConversations {
-  A             Int
-  B             Int
-  conversations Conversation @relation(fields: [A], references: [id], onDelete: Cascade)
-  User          User         @relation(fields: [B], references: [id], onDelete: Cascade)
-
-  @@id([A, B], map: "_UserConversations_AB_pkey")
-  @@index([B], map: "_UserConversations_B_index")
-  @@map("_UserConversations")
 }
 
 enum MessageStatus {

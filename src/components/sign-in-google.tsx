@@ -1,10 +1,8 @@
 import { FcGoogle } from "react-icons/fc";
-import { auth, signIn } from "@/auth"
+import { signIn } from "@/auth"
 import { Button } from "./ui/button";
 
 export default async function SignInGoogle() {
-  const session = await auth();
-  console.log(session)
   return (
     <form
      className="w-full"

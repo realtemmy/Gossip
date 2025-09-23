@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useRef, useEffect, use } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   Send,
   Hash,
@@ -15,6 +15,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card } from "@/components/ui/card";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 import { useConversation } from "@/contexts/conversation-context";
 
@@ -147,35 +152,46 @@ export default function ChatPage() {
           <div className="h-16 bg-background border-b px-6 flex items-center justify-between">
             <div className="flex items-center">
               <Hash className="mr-2 text-muted-foreground h-5 w-5" />
-              {/* {currentChannel.type === "channel" ? (
-            <Hash className="mr-2 text-muted-foreground h-5 w-5" />
-          ) : (
-            <div className="w-2 h-2 bg-green-400 rounded-full mr-3"></div>
-          )} */}
+
               <div>
                 <h2 className="font-semibold text-foreground">
                   {selectedConversation.title || "No conversation selected"}
                 </h2>
-                {selectedConversation?.type === "channel" && selectedConversation?.members && (
-              <p className="text-sm text-muted-foreground">
-                {selectedConversation?.members || 0} members
-              </p>
-            )}
               </div>
             </div>
-            <div className="flex items-center space-x-1">
-              <Button variant="ghost" size="sm">
-                <Phone className="h-4 w-4" />
-              </Button>
-              <Button variant="ghost" size="sm">
-                <Video className="h-4 w-4" />
-              </Button>
-              <Button variant="ghost" size="sm">
-                <Users className="h-4 w-4" />
-              </Button>
-              <Button variant="ghost" size="sm">
-                <MoreVertical className="h-4 w-4" />
-              </Button>
+            <div className="flex items-center space-x-4">
+              <Tooltip>
+                <TooltipTrigger>
+                  <Phone className="h-4 w-4" />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Voice call</p>
+                </TooltipContent>
+              </Tooltip>
+              <Tooltip>
+                <TooltipTrigger>
+                  <Video className="h-4 w-4" />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Video call</p>
+                </TooltipContent>
+              </Tooltip>
+              <Tooltip>
+                <TooltipTrigger>
+                  <Users className="h-4 w-4" />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Users</p>
+                </TooltipContent>
+              </Tooltip>
+              <Tooltip>
+                <TooltipTrigger>
+                  <MoreVertical className="h-4 w-4" />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>More</p>
+                </TooltipContent>
+              </Tooltip>
             </div>
           </div>
 

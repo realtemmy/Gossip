@@ -224,7 +224,7 @@ export default function HomePage({ user }: { user: User | null }) {
                   </DropdownMenuContent>
                 </DropdownMenu>
               ) : (
-                <Link href="/sign-in">Sign In</Link>
+                <Link href="/auth">Sign In</Link>
               )}
             </div>
 

@@ -2,11 +2,9 @@
 import React, { useState } from "react";
 import {
   Camera,
-  Settings,
   Bell,
   Shield,
   Palette,
-  Globe,
   Lock,
   User,
   Mail,
@@ -23,7 +21,6 @@ import {
   Smartphone,
   Monitor,
   Eye,
-  EyeOff,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -48,6 +45,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+
 
 const ProfileSettingsPage = () => {
   const [isEditing, setIsEditing] = useState(false);

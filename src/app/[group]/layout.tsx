@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-import { Hash, Users, Settings, Search, Plus } from "lucide-react";
+import { Hash, Settings, Search, Plus } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -44,6 +44,7 @@ export default function ChatLayout({ children }: ChatLayoutProps) {
     queryKey: ["conversations", group],
     queryFn: async () => {
       const response = await axios.get(`../api/group/${group}`);
+      console.log("Reponse: ", response.data);
       return response.data;
     },
   });
@@ -59,15 +60,15 @@ export default function ChatLayout({ children }: ChatLayoutProps) {
   return (
     <div className="flex h-screen bg-background">
       {/* Sidebar */}
-      <div className="w-80 bg-slate-900 text-white flex flex-col border-r">
+      <div className="w-80  flex flex-col border-r">
         {/* Header */}
-        <div className="p-4 border-b border-slate-700">
+        <div className="p-4 border-b ">
           <div className="flex items-center justify-between">
-            <h1 className="text-lg font-bold text-white">GossipIt</h1>
+            <h1 className="text-lg font-bold">GossipIt</h1>
             <Button
               variant="ghost"
               size="sm"
-              className="text-white hover:bg-slate-800"
+              className=""
             >
               <Settings className="h-4 w-4" />
             </Button>
@@ -81,7 +82,7 @@ export default function ChatLayout({ children }: ChatLayoutProps) {
             <Input
               type="text"
               placeholder="Search channels, people..."
-              className="pl-10 bg-slate-800 border-slate-700 text-white placeholder:text-slate-400 focus:ring-blue-500 focus:border-blue-500"
+              className="pl-10   focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
         </div>
@@ -90,13 +91,13 @@ export default function ChatLayout({ children }: ChatLayoutProps) {
         <ScrollArea className="flex-1">
           <div className="px-4 py-2">
             <div className="flex items-center justify-between mb-3">
-              <h2 className="text-sm font-semibold text-slate-300 uppercase tracking-wide">
+              <h2 className="text-sm font-semibold uppercase tracking-wide">
                 {data.name || "Conversations"}
               </h2>
               <Button
                 variant="ghost"
                 size="sm"
-                className="text-slate-400 hover:text-white hover:bg-slate-800 h-6 w-6 p-0"
+                className="h-6 w-6 p-0"
               >
                 <Plus className="h-4 w-4" />
               </Button>
@@ -116,10 +117,10 @@ export default function ChatLayout({ children }: ChatLayoutProps) {
                         id: convo.id,
                       });
                     }}
-                    className={`w-full justify-between px-3 py-2 h-auto text-left font-normal ${
+                    className={`w-full justify-between px-3 py-2 h-auto text-left font-normal hover:text-white ${
                       activeChannel === convo.title
-                        ? "bg-blue-600 text-white hover:bg-blue-600"
-                        : "text-slate-300 hover:bg-slate-800 hover:text-white"
+                        ? "bg-slate-800 text-white hover:bg-slate-600"
+                        : "text-slate-600 hover:bg-slate-600 hover:text-white"
                     }`}
                   >
                     <div className="flex items-center">
@@ -137,28 +138,13 @@ export default function ChatLayout({ children }: ChatLayoutProps) {
                   </Button>
                 ))
               ) : (
-                <div className="text-sm text-slate-500">
+                <div className="text-sm">
                   No conversations found.
                 </div>
               )}
             </div>
           </div>
 
-          <div className="px-4 py-2">
-            <div className="flex items-center justify-between mb-3">
-              <h2 className="text-sm font-semibold text-slate-300 uppercase tracking-wide">
-                Direct Messages
-              </h2>
-              <Button
-                variant="ghost"
-                size="sm"
-                className="text-slate-400 hover:text-white hover:bg-slate-800 h-6 w-6 p-0"
-              >
-                <Plus className="h-4 w-4" />
-              </Button>
-            </div>
-
-          </div>
         </ScrollArea>
       </div>
 

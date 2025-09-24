@@ -45,7 +45,6 @@ export default function ChatLayout({ children }: ChatLayoutProps) {
     queryKey: ["conversations", group],
     queryFn: async () => {
       const response = await axios.get(`../api/group/${group}`);
-      console.log("Reponse: ", response.data);
       return response.data;
     },
   });

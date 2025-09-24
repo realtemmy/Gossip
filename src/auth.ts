@@ -7,8 +7,20 @@ import Facebook from "next-auth/providers/facebook";
 
 import { prisma } from "./prisma";
 
-
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [Google, Facebook],
   adapter: PrismaAdapter(prisma),
+  callbacks: {
+    async session({ session, user }) {
+      return {
+        user: {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          image: user.image,
+        },
+        expires: session.expires,
+      };
+    },
+  },
 });

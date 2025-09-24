@@ -72,7 +72,6 @@ interface User {
 
 export default function HomePage({ user }: { user: User | null }) {
   const { searchQuery, selectedCategory } = useCategory();
-
   const {
     data: category,
     isLoading,

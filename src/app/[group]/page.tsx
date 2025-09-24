@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useRef, useEffect, use } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import {
   Send,
@@ -23,6 +23,8 @@ import {
 } from "@/components/ui/tooltip";
 
 import { useConversation } from "@/contexts/conversation-context";
+import { useSession } from "next-auth/react";
+
 import axios from "axios";
 
 interface Message {
@@ -37,38 +39,9 @@ interface Message {
 }
 
 export default function ChatPage() {
+  const { data } = useSession();
   const { selectedConversation } = useConversation();
   const [message, setMessage] = useState("");
-  // const [messages, setMessages] = useState<Message[]>([
-  //   {
-  //     id: 1,
-  //     user: "Sarah Chen",
-  //     avatar:
-  //       "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=40&h=40&fit=crop&crop=face",
-  //     content:
-  //       "Hey everyone! Just pushed the latest updates to the staging environment. Could you all take a look?",
-  //     timestamp: new Date(Date.now() - 1000 * 60 * 5),
-  //   },
-  //   {
-  //     id: 2,
-  //     user: "Mike Rodriguez",
-  //     avatar:
-  //       "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face",
-  //     content:
-  //       "Looks great! The new UI components are really smooth. Nice work on the animations.",
-  //     timestamp: new Date(Date.now() - 1000 * 60 * 3),
-  //   },
-  //   {
-  //     id: 3,
-  //     user: "You",
-  //     avatar:
-  //       "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face",
-  //     content:
-  //       "Thanks! I spent extra time on the micro-interactions. Glad you noticed!",
-  //     timestamp: new Date(Date.now() - 1000 * 60 * 1),
-  //     isOwn: true,
-  //   },
-  // ]);
 
   const {
     data: messages = [],
@@ -78,7 +51,7 @@ export default function ChatPage() {
     queryKey: ["messages", selectedConversation.id],
     queryFn: async () => {
       const response = await axios.get(
-        `../api/messaages/${selectedConversation.id}`
+        `../api/messages/${selectedConversation.id}`
       );
       return response.data;
     },
@@ -103,34 +76,26 @@ export default function ChatPage() {
     }
   };
 
-  const sendMessage = async () => {
-    const response = await axios.post(`../api/messages`, {
-      content: message, senderId: "", conversationId: selectedConversation.id,
-    });
-  }
+  const mutation = useMutation({
+    mutationKey: ["sendMessage"],
+    mutationFn: async () => {
+      const response = await axios.post(`../api/messages`, {
+        content: message,
+        senderId: data?.user?.id,
+        conversationId: selectedConversation.id,
+      });
+      console.log("Message sent: ", response.data);
+      return response.data;
+    },
+    onSuccess: () => {
+      setMessage("");
+      adjustTextareaHeight();
+    },
+  });
 
-  // const sendMessage = () => {
-  //   if (message.trim()) {
-  //     const newMessage: Message = {
-  //       id: Date.now().toString(),
-  //       user: "You",
-  //       avatar:
-  //         "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face",
-  //       content: message,
-  //       timestamp: new Date(),
-  //       isOwn: true,
-  //     };
-  //     // setMessages([...messages, newMessage]);
-  //     setMessage("");
-
-  //     // Reset textarea height
-  //     setTimeout(() => {
-  //       if (textareaRef.current) {
-  //         textareaRef.current.style.height = "auto";
-  //       }
-  //     }, 0);
-  //   }
-  // };
+  const sendMessage = () => {
+    mutation.mutate();
+  };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
@@ -144,17 +109,19 @@ export default function ChatPage() {
     adjustTextareaHeight();
   };
 
-  const formatTime = (date: Date) => {
-    return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-  };
+ const formatTime = (date: string | Date) => {
+   const d = typeof date === "string" ? new Date(date) : date;
+   return d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+ };
 
-  const getInitials = (name: string) => {
-    return name
-      .split(" ")
-      .map((n) => n[0])
-      .join("")
-      .toUpperCase();
-  };
+
+  // const getInitials = (name: string) => {
+  //   return name
+  //     .split(" ")
+  //     .map((n) => n[0])
+  //     .join("")
+  //     .toUpperCase();
+  // };
 
   const handleJoinGroup = () => {};
 
@@ -226,44 +193,44 @@ export default function ChatPage() {
                 <div
                   key={msg.id}
                   className={`flex ${
-                    msg.isOwn ? "justify-end" : "justify-start"
+                    msg.senderId ? "justify-end" : "justify-start"
                   }`}
                 >
                   <div
                     className={`flex max-w-2xl ${
-                      msg.isOwn ? "flex-row-reverse" : "flex-row"
+                      msg.senderId ? "flex-row-reverse" : "flex-row"
                     }`}
                   >
-                    {!msg.isOwn && (
+                    {/* {!msg.senderId && (
                       <Avatar className="w-10 h-10 mr-3 flex-shrink-0">
-                        <AvatarImage src={msg.avatar} alt={msg.user} />
+                        <AvatarImage src={msg.i} alt={msg.user} />
                         <AvatarFallback>{getInitials(msg.user)}</AvatarFallback>
                       </Avatar>
-                    )}
-                    <div className={`${msg.isOwn ? "mr-3" : ""}`}>
-                      {!msg.isOwn && (
+                    )} */}
+                    <div className={`${msg.senderId ? "mr-3" : ""}`}>
+                      {!msg.senderId && (
                         <div className="flex items-center mb-1">
                           <span className="font-semibold text-foreground text-sm">
-                            {msg.user}
+                            {msg?.user || "User"}
                           </span>
                           <span className="text-muted-foreground text-xs ml-2">
-                            {formatTime(msg.timestamp)}
+                            {/* {formatTime(msg.createdAt)} */}
                           </span>
                         </div>
                       )}
                       <Card
                         className={`px-4 py-3 ${
-                          msg.isOwn
+                          msg.senderId
                             ? "bg-primary text-primary-foreground border-primary"
                             : "bg-card border-border"
                         }`}
                       >
                         <p className="text-sm">{msg.content}</p>
                       </Card>
-                      {msg.isOwn && (
+                      {msg.senderId && (
                         <div className="text-right mt-1">
                           <span className="text-muted-foreground text-xs">
-                            {formatTime(msg.timestamp)}
+                            {formatTime(msg.createdAt)}
                           </span>
                         </div>
                       )}

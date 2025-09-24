@@ -10,7 +10,7 @@ export const GET = async (request: NextRequest) => {
 export const POST = async (request: NextResponse) => {
   const { content, senderId, conversationId } = await request.json();
 
-  prisma.message.create({
+  const reponse = await prisma.message.create({
     data: {
       content,
       senderId,
@@ -18,4 +18,6 @@ export const POST = async (request: NextResponse) => {
       status: "SENT",
     },
   });
+
+  return NextResponse.json(reponse, { status: 201 });
 };

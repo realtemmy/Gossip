@@ -7,6 +7,7 @@ import { CategoryProvider } from "../contexts/category-context";
 import { ConversationProvider } from "@/contexts/conversation-context";
 
 import ReactQueryProvider from "@/lib/providers/react-query-provider";
+import { SessionProvider } from "next-auth/react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,13 +24,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <ReactQueryProvider>
+        <SessionProvider>
+          <ReactQueryProvider>
           <CategoryProvider>
             <ConversationProvider>
               <div className="h-screen">{children}</div>
             </ConversationProvider>
           </CategoryProvider>
         </ReactQueryProvider>
+        </SessionProvider>
+        
       </body>
     </html>
   );

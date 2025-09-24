@@ -6,7 +6,7 @@ export const GET = async (
   request: NextRequest,
   { params }: { params: { conversationId: string } }
 ) => {
-  const { conversationId } = params;
+  const { conversationId } = await params;
 
   if (!conversationId) {
     return NextResponse.json(

@@ -37,26 +37,30 @@ model Group {
 }
 
 model Conversation {
-  id        Int       @id @default(autoincrement())
-  title     String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  group_id  Int
-  groups    Group     @relation(fields: [group_id], references: [id], onDelete: Cascade)
-  messages  Message[]
-  unread    Int       @default(0)
+  id           Int       @id @default(autoincrement())
+  title        String
+  isGroup      Boolean   @default(true)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  group_id     Int
+  groups       Group     @relation(fields: [group_id], references: [id], onDelete: Cascade)
+  messages     Message[]
+  participants User[]
+  unread       Int       @default(0)
 
   @@map("conversations")
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String         @id @default(cuid())
   name          String?
-  email         String    @unique
+  email         String         @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   sessions      Session[]
+  Message       Message[]
+  conversations Conversation[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -107,12 +111,13 @@ model Message {
   id             Int           @id @default(autoincrement())
   content        String
   senderId       String
-  receiverId     String
   conversationId Int
   status         MessageStatus @default(PENDING)
   createdAt      DateTime      @default(now())
   updatedAt      DateTime      @updatedAt
-  conversation   Conversation  @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  sender       User         @relation(fields: [senderId], references: [id])
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
 
   @@map("messages")
 }

@@ -40,6 +40,7 @@ export default function ChatLayout({ children }: ChatLayoutProps) {
   const [activeChannel, setActiveChannel] = useState("");
   const { setSelectedConversation } = useConversation();
 
+
   const { data, isLoading, isError, error } = useQuery<Group>({
     queryKey: ["conversations", group],
     queryFn: async () => {
@@ -97,7 +98,7 @@ export default function ChatLayout({ children }: ChatLayoutProps) {
               <Button
                 variant="ghost"
                 size="sm"
-                className="h-6 w-6 p-0"
+                className="h-6 w-6 p-0 cursor-pointer"
               >
                 <Plus className="h-4 w-4" />
               </Button>

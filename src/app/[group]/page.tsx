@@ -1,5 +1,6 @@
 "use client";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, use } from "react";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import {
   Send,
   Hash,
@@ -22,49 +23,66 @@ import {
 } from "@/components/ui/tooltip";
 
 import { useConversation } from "@/contexts/conversation-context";
+import axios from "axios";
 
 interface Message {
-  id: string;
-  user: string;
-  avatar: string;
+  id: number;
   content: string;
-  timestamp: Date;
-  isOwn?: boolean;
+  senderId: string;
+  conversationId: number;
+  status: "sent" | "delivered" | "read";
+  // user: string;
+  // avatar: string;
+  createdAt: Date;
 }
 
 export default function ChatPage() {
   const { selectedConversation } = useConversation();
   const [message, setMessage] = useState("");
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: "1",
-      user: "Sarah Chen",
-      avatar:
-        "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=40&h=40&fit=crop&crop=face",
-      content:
-        "Hey everyone! Just pushed the latest updates to the staging environment. Could you all take a look?",
-      timestamp: new Date(Date.now() - 1000 * 60 * 5),
+  // const [messages, setMessages] = useState<Message[]>([
+  //   {
+  //     id: 1,
+  //     user: "Sarah Chen",
+  //     avatar:
+  //       "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=40&h=40&fit=crop&crop=face",
+  //     content:
+  //       "Hey everyone! Just pushed the latest updates to the staging environment. Could you all take a look?",
+  //     timestamp: new Date(Date.now() - 1000 * 60 * 5),
+  //   },
+  //   {
+  //     id: 2,
+  //     user: "Mike Rodriguez",
+  //     avatar:
+  //       "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face",
+  //     content:
+  //       "Looks great! The new UI components are really smooth. Nice work on the animations.",
+  //     timestamp: new Date(Date.now() - 1000 * 60 * 3),
+  //   },
+  //   {
+  //     id: 3,
+  //     user: "You",
+  //     avatar:
+  //       "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face",
+  //     content:
+  //       "Thanks! I spent extra time on the micro-interactions. Glad you noticed!",
+  //     timestamp: new Date(Date.now() - 1000 * 60 * 1),
+  //     isOwn: true,
+  //   },
+  // ]);
+
+  const {
+    data: messages = [],
+    isLoading,
+    error,
+  } = useQuery<Message[]>({
+    queryKey: ["messages", selectedConversation.id],
+    queryFn: async () => {
+      const response = await axios.get(
+        `../api/messaages/${selectedConversation.id}`
+      );
+      return response.data;
     },
-    {
-      id: "2",
-      user: "Mike Rodriguez",
-      avatar:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face",
-      content:
-        "Looks great! The new UI components are really smooth. Nice work on the animations.",
-      timestamp: new Date(Date.now() - 1000 * 60 * 3),
-    },
-    {
-      id: "3",
-      user: "You",
-      avatar:
-        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face",
-      content:
-        "Thanks! I spent extra time on the micro-interactions. Glad you noticed!",
-      timestamp: new Date(Date.now() - 1000 * 60 * 1),
-      isOwn: true,
-    },
-  ]);
+  });
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -85,28 +103,34 @@ export default function ChatPage() {
     }
   };
 
-  const sendMessage = () => {
-    if (message.trim()) {
-      const newMessage: Message = {
-        id: Date.now().toString(),
-        user: "You",
-        avatar:
-          "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face",
-        content: message,
-        timestamp: new Date(),
-        isOwn: true,
-      };
-      setMessages([...messages, newMessage]);
-      setMessage("");
+  const sendMessage = async () => {
+    const response = await axios.post(`../api/messages`, {
+      content: message, senderId: "", conversationId: selectedConversation.id,
+    });
+  }
 
-      // Reset textarea height
-      setTimeout(() => {
-        if (textareaRef.current) {
-          textareaRef.current.style.height = "auto";
-        }
-      }, 0);
-    }
-  };
+  // const sendMessage = () => {
+  //   if (message.trim()) {
+  //     const newMessage: Message = {
+  //       id: Date.now().toString(),
+  //       user: "You",
+  //       avatar:
+  //         "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face",
+  //       content: message,
+  //       timestamp: new Date(),
+  //       isOwn: true,
+  //     };
+  //     // setMessages([...messages, newMessage]);
+  //     setMessage("");
+
+  //     // Reset textarea height
+  //     setTimeout(() => {
+  //       if (textareaRef.current) {
+  //         textareaRef.current.style.height = "auto";
+  //       }
+  //     }, 0);
+  //   }
+  // };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {

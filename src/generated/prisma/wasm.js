@@ -144,6 +144,7 @@ exports.Prisma.GroupScalarFieldEnum = {
 exports.Prisma.ConversationScalarFieldEnum = {
   id: 'id',
   title: 'title',
+  isGroup: 'isGroup',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   group_id: 'group_id',
@@ -194,7 +195,6 @@ exports.Prisma.MessageScalarFieldEnum = {
   id: 'id',
   content: 'content',
   senderId: 'senderId',
-  receiverId: 'receiverId',
   conversationId: 'conversationId',
   status: 'status',
   createdAt: 'createdAt',

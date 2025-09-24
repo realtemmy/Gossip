@@ -1,11 +1,15 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { auth } from "./auth";
+import { getToken } from "next-auth/jwt";
 
-const protectedRoutes = ["user"];
+const protectedRoutes = ["/profile", "/settings", "/chat", "/conversations"];
 
 export default async function midddleware(request: NextRequest) {
-  const session = await auth();
+  const token = await getToken({
+    req: request,
+    secret: process.env.AUTH_SECRET,
+    secureCookie: process.env.NODE_ENV === "production",
+  });
 
   const { pathname } = request.nextUrl;
 
@@ -13,8 +17,8 @@ export default async function midddleware(request: NextRequest) {
     pathname.startsWith(route)
   );
 
-  if(isProtected && !session){
-    return NextResponse.redirect(new URL("/auth"));
+  if (isProtected && !token) {
+    return NextResponse.redirect(new URL("/auth", request.url));
   }
 
   return NextResponse.next();

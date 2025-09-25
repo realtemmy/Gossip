@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   Send,
   Hash,
@@ -10,17 +10,18 @@ import {
   MoreVertical,
   Smile,
   Paperclip,
+  Loader2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card } from "@/components/ui/card";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import ChatSkeleton from "@/components/chat-skeleton";
 
 import { useConversation } from "@/contexts/conversation-context";
 import { useSession } from "next-auth/react";
@@ -32,20 +33,20 @@ interface Message {
   content: string;
   senderId: string;
   conversationId: number;
-  status: "sent" | "delivered" | "read";
-  // user: string;
-  // avatar: string;
+  status: "PENDING" | "SENT" | "DEELIVERED";
   createdAt: Date;
 }
 
 export default function ChatPage() {
-  const { data } = useSession();
+  const { data: session } = useSession();
+  const queryClient = useQueryClient();
   const { selectedConversation } = useConversation();
   const [message, setMessage] = useState("");
 
   const {
     data: messages = [],
     isLoading,
+    isError,
     error,
   } = useQuery<Message[]>({
     queryKey: ["messages", selectedConversation.id],
@@ -81,15 +82,18 @@ export default function ChatPage() {
     mutationFn: async () => {
       const response = await axios.post(`../api/messages`, {
         content: message,
-        senderId: data?.user?.id,
+        senderId: session?.user?.id,
         conversationId: selectedConversation.id,
       });
       console.log("Message sent: ", response.data);
       return response.data;
     },
-    onSuccess: () => {
+    onSuccess: async () => {
       setMessage("");
       adjustTextareaHeight();
+      await queryClient.invalidateQueries({
+        queryKey: ["messages", selectedConversation.id],
+      });
     },
   });
 
@@ -109,19 +113,10 @@ export default function ChatPage() {
     adjustTextareaHeight();
   };
 
- const formatTime = (date: string | Date) => {
-   const d = typeof date === "string" ? new Date(date) : date;
-   return d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
- };
-
-
-  // const getInitials = (name: string) => {
-  //   return name
-  //     .split(" ")
-  //     .map((n) => n[0])
-  //     .join("")
-  //     .toUpperCase();
-  // };
+  const formatTime = (date: string | Date) => {
+    const d = typeof date === "string" ? new Date(date) : date;
+    return d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  };
 
   const handleJoinGroup = () => {};
 
@@ -189,55 +184,60 @@ export default function ChatPage() {
           {/* Messages */}
           <ScrollArea className="flex-1 px-6 py-4">
             <div className="space-y-4">
-              {messages.map((msg) => (
-                <div
-                  key={msg.id}
-                  className={`flex ${
-                    msg.senderId ? "justify-end" : "justify-start"
-                  }`}
-                >
+              {isLoading ? (
+                <ChatSkeleton />
+              ) : isError ? (
+                <div className="text-red-500">
+                  Error:{" "}
+                  {error instanceof Error ? error.message : "An error occurred"}
+                </div>
+              ) : messages.length === 0 ? (
+                <div className="text-sm text-muted-foreground text-center ">
+                  No messages yet. Start the conversation!
+                </div>
+              ) : (
+                messages.map((msg) => (
                   <div
-                    className={`flex max-w-2xl ${
-                      msg.senderId ? "flex-row-reverse" : "flex-row"
+                    key={msg.id}
+                    className={`flex ${
+                      msg.senderId === session?.user?.id
+                        ? "justify-end"
+                        : "justify-start"
                     }`}
                   >
-                    {/* {!msg.senderId && (
-                      <Avatar className="w-10 h-10 mr-3 flex-shrink-0">
-                        <AvatarImage src={msg.i} alt={msg.user} />
-                        <AvatarFallback>{getInitials(msg.user)}</AvatarFallback>
-                      </Avatar>
-                    )} */}
-                    <div className={`${msg.senderId ? "mr-3" : ""}`}>
-                      {!msg.senderId && (
-                        <div className="flex items-center mb-1">
-                          <span className="font-semibold text-foreground text-sm">
-                            {msg?.user || "User"}
-                          </span>
-                          <span className="text-muted-foreground text-xs ml-2">
-                            {/* {formatTime(msg.createdAt)} */}
-                          </span>
-                        </div>
-                      )}
-                      <Card
-                        className={`px-4 py-3 ${
-                          msg.senderId
-                            ? "bg-primary text-primary-foreground border-primary"
-                            : "bg-card border-border"
+                    <div
+                      className={`flex max-w-2xl ${
+                        msg.senderId === session?.user?.id
+                          ? "flex-row-reverse"
+                          : "flex-row"
+                      }`}
+                    >
+                      <div
+                        className={`${
+                          msg.senderId === session?.user?.id ? "mr-3" : ""
                         }`}
                       >
-                        <p className="text-sm">{msg.content}</p>
-                      </Card>
-                      {msg.senderId && (
-                        <div className="text-right mt-1">
+                        <Card
+                          className={`px-4 py-3 ${
+                            msg.senderId === session?.user?.id
+                              ? "bg-primary text-primary-foreground border-primary"
+                              : "bg-car"
+                          }`}
+                        >
+                          <p className="text-sm">{msg.content}</p>
+                        </Card>
+
+                        <div className="text-right mt-">
                           <span className="text-muted-foreground text-xs">
                             {formatTime(msg.createdAt)}
                           </span>
                         </div>
-                      )}
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))
+              )}
+
               <div ref={messagesEndRef} />
             </div>
           </ScrollArea>
@@ -268,10 +268,14 @@ export default function ChatPage() {
               </div>
               <Button
                 onClick={sendMessage}
-                disabled={!message.trim()}
+                disabled={!message.trim() || mutation.isPending}
                 className="h-12 w-12 rounded-full p-0"
               >
-                <Send className="h-4 w-4" />
+                {mutation.isPending ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Send className="h-4 w-4" />
+                )}
               </Button>
             </div>
           </div>

@@ -1,4 +1,6 @@
+"use client"
 import { Button } from "@/components/ui/button";
+import { signIn } from "next-auth/react";
 import Link from "next/link";
 import {
   Card,
@@ -9,10 +11,13 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import SignInGoogle from "@/components/sign-in-google";
 import SignInFacebook from "@/components/sign-in-facebook";
+import { FcGoogle } from "react-icons/fc";
 
 const Login = () => {
+  const handleGoogleSignIn = async () => {
+      await signIn("google", { callbackUrl: "/" });
+  }
   return (
     <div className="flex h-screen w-screen justify-center items-center">
       <Card className="w-full max-w-sm">
@@ -57,8 +62,10 @@ const Login = () => {
               <div className="h-px flex-1 bg-gray-300"></div>
             </div>
           </div>
-          <SignInGoogle />
-          <SignInFacebook />
+          <Button variant="outline" className="w-full" onClick={handleGoogleSignIn}>
+            <FcGoogle className="mr-2 size-5" />
+          </Button>
+          {/* <SignInFacebook /> */}
           <div className="my-4 text-sm text-slate-400">
             <p>
               Don't have an account?{" "}

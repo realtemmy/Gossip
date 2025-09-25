@@ -7,7 +7,7 @@ export const GET = async (
   req: NextRequest,
   { params }: { params: { groupId: number } }
 ) => {
-    console.log(params);
+  console.log(params);
   const { groupId } = await params;
   if (!groupId) {
     return NextResponse.json(
@@ -29,4 +29,17 @@ export const GET = async (
   }
 
   return NextResponse.json(response, { status: 200 });
+};
+
+export const POST = async (request: NextRequest) => {
+  const { title, group_id } = await request.json();
+
+  const response = await prisma.conversation.create({
+    data: {
+      title,
+      group_id,
+    },
+  });
+
+  return NextResponse.json(response, { status: 201 });
 };

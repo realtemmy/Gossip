@@ -9,7 +9,6 @@ export const GET = async (
   req: NextRequest,
   { params }: { params: { groupId: string } }
 ) => {
-  console.log("Params: ", params);
   const { groupId } = params;
   if (!groupId) {
     return NextResponse.json(
@@ -32,3 +31,5 @@ export const GET = async (
 
   return NextResponse.json(response, { status: 200 });
 };
+
+

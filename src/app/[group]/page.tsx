@@ -269,7 +269,7 @@ export default function ChatPage() {
               <Button
                 onClick={sendMessage}
                 disabled={!message.trim() || mutation.isPending}
-                className="h-12 w-12 rounded-full p-0"
+                className="h-12 w-12 rounded-full p-0 cursor-pointer"
               >
                 {mutation.isPending ? (
                   <Loader2 className="h-4 w-4 animate-spin" />

@@ -1,6 +1,6 @@
-import React from "react";
-import { useQuery } from "@tanstack/react-query";
-import { Search, Plus, Settings, Bell, Loader } from "lucide-react";
+import React, { useState } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { Search, Plus, Settings, Bell, Loader, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -19,11 +19,18 @@ import CategoryIconComponent, {
   categoryColors,
   IconKey,
 } from "../CategoryIconComponent";
-
+import { Label } from "../ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
 import axios from "axios";
-import { Label } from "../ui/label";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "../ui/select";
 
 interface Category {
   id: number;
@@ -34,11 +41,15 @@ interface Category {
 }
 
 export function Sidebar() {
+  const queryClient = useQueryClient();
+  const [groupName, setGroupName] = useState<string>("");
+  const [categoryId, setCategoryId] = useState<string>("");
+
   const {
-    data: categories,
+    data: categories = [],
     isLoading,
     error,
-    isError
+    isError,
   } = useQuery<Category[]>({
     queryKey: ["categories"],
     queryFn: async () => {
@@ -46,6 +57,26 @@ export function Sidebar() {
       return response.data;
     },
   });
+
+  const mutation = useMutation({
+    mutationFn: async () => {
+      const response = await axios.post("/api/group", {
+        name: groupName,
+        categoryId,
+      });
+
+      return response.data;
+    },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["groups"] });
+      setGroupName("");
+      setCategoryId("");
+    },
+  });
+
+  const handleCreateGroup = () => {
+    mutation.mutate();
+  };
 
   const { searchQuery, selectedCategory, setSearchQuery, setSelectedCategory } =
     useCategory();
@@ -136,37 +167,36 @@ export function Sidebar() {
           </DialogTrigger>
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
-              <DialogTitle>Create Conversation</DialogTitle>
+              <DialogTitle>Create New Group</DialogTitle>
               <DialogDescription>
                 Create a conversation to chat about specifics of your choice.
               </DialogDescription>
             </DialogHeader>
             <div className="grid gap-4">
               <div className="grid gap-3">
-                <Label htmlFor="conversation-title">Title</Label>
+                <Label htmlFor="conversation-title">Name</Label>
                 <Input
                   id="conversation-title"
-                  // onChange={(event) =>
-                  //   setConversastionTitle(event.target.value)
-                  // }
+                  onChange={(event) => setGroupName(event.target.value)}
                 />
               </div>
               <div className="grid gap-3">
-                <Label htmlFor="username-1">Group</Label>
-                <Select
-                  onValueChange={(value) => console.log("Selected Id: ", value)}
-                >
+                <Label htmlFor="username-1">Category</Label>
+                <Select onValueChange={(value) => setCategoryId(value)}>
                   <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select Conversation Group" />
+                    <SelectValue placeholder="Select Category" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
-                      <SelectLabel>Groups</SelectLabel>
-                      {/* {groups.map((group: Group) => (
-                        <SelectItem value={group.id} key={group.id}>
-                          {group.name}
+                      <SelectLabel>Categories</SelectLabel>
+                      {categories.map((category: Category) => (
+                        <SelectItem
+                          value={String(category.id)}
+                          key={category.id}
+                        >
+                          {category.name}
                         </SelectItem>
-                      ))} */}
+                      ))}
                     </SelectGroup>
                   </SelectContent>
                 </Select>
@@ -176,7 +206,17 @@ export function Sidebar() {
               <DialogClose asChild>
                 <Button variant="outline">Cancel</Button>
               </DialogClose>
-              <Button>Save changes</Button>
+              <Button
+                onClick={handleCreateGroup}
+                disabled={mutation.isPending || !(groupName && categoryId)}
+                className={mutation.isPending || !(groupName && categoryId) ? "bg-gray-300": ""}
+              >
+                {mutation.isPending ? (
+                  <Loader2 className="animate-spin" />
+                ) : (
+                  <span>Save Changes</span>
+                )}
+              </Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>

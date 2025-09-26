@@ -66,7 +66,7 @@ export default function ChatLayout({ children }: ChatLayoutProps) {
   const { data, isLoading, isError, error } = useQuery<Group>({
     queryKey: ["conversations", group],
     queryFn: async () => {
-      const response = await axios.get(`../api/group/${group}`);
+      const response = await axios.get(`../api/groups/${group}`);
       return response.data;
     },
   });
@@ -74,7 +74,7 @@ export default function ChatLayout({ children }: ChatLayoutProps) {
   const { data: groups } = useQuery({
     queryKey: ["groups"],
     queryFn: async () => {
-      const response = await axios.get("../api/group");
+      const response = await axios.get("../api/groups");
       // console.log("Groups: ", response.data);
       return response.data;
     },
@@ -95,7 +95,7 @@ export default function ChatLayout({ children }: ChatLayoutProps) {
   });
 
   const handleCreateConversation = () => {
-    mutation.mutate()
+    mutation.mutate();
   };
 
   if (!data || isLoading) {
@@ -174,9 +174,7 @@ export default function ChatLayout({ children }: ChatLayoutProps) {
                     <div className="grid gap-3">
                       <Label htmlFor="username-1">Group</Label>
                       <Select
-                        onValueChange={(value) =>
-                          console.log("Selected Id: ", value)
-                        }
+                        onValueChange={(value) => setConversationGroupId(value)}
                       >
                         <SelectTrigger className="w-full">
                           <SelectValue placeholder="Select Conversation Group" />

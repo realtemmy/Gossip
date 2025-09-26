@@ -3,7 +3,9 @@ import { PrismaClient } from "@/generated/prisma";
 import slugify from "slugify";
 
 const prisma = new PrismaClient();
-export const GET = async (req: NextRequest) => {
+
+// Return all Group
+export const GET = async (request: NextRequest) => {
   try {
     const groups = await prisma.group.findMany({
       select: {
@@ -22,6 +24,7 @@ export const GET = async (req: NextRequest) => {
   }
 };
 
+// Create Group
 export const POST = async (request: NextRequest) => {
   const { name, categoryId } = await request.json();
   if (!name || !categoryId) {
@@ -34,7 +37,7 @@ export const POST = async (request: NextRequest) => {
   const response = await prisma.group.create({
     data: {
       name,
-      categoryId,
+      categoryId: parseInt(categoryId),
       slug: slugify(name, { lower: true }),
     },
   });

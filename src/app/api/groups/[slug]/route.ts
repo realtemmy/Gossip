@@ -2,6 +2,8 @@ import { PrismaClient } from "@/generated/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
+
+// Get Groupbu slug
 export const GET = async (
   req: NextRequest,
   { params }: { params: { slug: string } }

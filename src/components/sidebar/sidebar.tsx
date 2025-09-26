@@ -3,13 +3,27 @@ import { useQuery } from "@tanstack/react-query";
 import { Search, Plus, Settings, Bell, Loader } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+
 import { useCategory } from "@/contexts/category-context";
 import CategoryIconComponent, {
   categoryColors,
   IconKey,
 } from "../CategoryIconComponent";
 
+
 import axios from "axios";
+import { Label } from "../ui/label";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "../ui/select";
 
 interface Category {
   id: number;
@@ -113,10 +127,59 @@ export function Sidebar() {
 
       {/* Create Group Button */}
       <div className="p-4 border-t">
-        <Button className="w-full gap-2">
-          <Plus className="w-4 h-4" />
-          Create New Group
-        </Button>
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button className="w-full gap-2">
+              <Plus className="w-4 h-4" />
+              Create New Group
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>Create Conversation</DialogTitle>
+              <DialogDescription>
+                Create a conversation to chat about specifics of your choice.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="grid gap-4">
+              <div className="grid gap-3">
+                <Label htmlFor="conversation-title">Title</Label>
+                <Input
+                  id="conversation-title"
+                  // onChange={(event) =>
+                  //   setConversastionTitle(event.target.value)
+                  // }
+                />
+              </div>
+              <div className="grid gap-3">
+                <Label htmlFor="username-1">Group</Label>
+                <Select
+                  onValueChange={(value) => console.log("Selected Id: ", value)}
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select Conversation Group" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Groups</SelectLabel>
+                      {/* {groups.map((group: Group) => (
+                        <SelectItem value={group.id} key={group.id}>
+                          {group.name}
+                        </SelectItem>
+                      ))} */}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button variant="outline">Cancel</Button>
+              </DialogClose>
+              <Button>Save changes</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   );

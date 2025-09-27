@@ -80,7 +80,7 @@ export default function HomePage() {
   } = useQuery<Category>({
     queryKey: ["groups", selectedCategory],
     queryFn: async () => {
-      const response = await axios.get(`/api/groups/${selectedCategory}/category`);
+      const response = await axios.get(`/api/category/${selectedCategory}`);
       return response.data;
     },
     enabled: !!selectedCategory,

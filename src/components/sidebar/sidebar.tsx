@@ -42,6 +42,7 @@ interface Category {
 
 export function Sidebar() {
   const queryClient = useQueryClient();
+  const [open, setOpen] = useState<boolean>(false);
   const [groupName, setGroupName] = useState<string>("");
   const [categoryId, setCategoryId] = useState<string>("");
 
@@ -60,7 +61,7 @@ export function Sidebar() {
 
   const mutation = useMutation({
     mutationFn: async () => {
-      const response = await axios.post("/api/group", {
+      const response = await axios.post("/api/groups", {
         name: groupName,
         categoryId,
       });
@@ -71,6 +72,7 @@ export function Sidebar() {
       await queryClient.invalidateQueries({ queryKey: ["groups"] });
       setGroupName("");
       setCategoryId("");
+      setOpen(false);
     },
   });
 
@@ -158,7 +160,7 @@ export function Sidebar() {
 
       {/* Create Group Button */}
       <div className="p-4 border-t">
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
             <Button className="w-full gap-2">
               <Plus className="w-4 h-4" />
@@ -209,7 +211,11 @@ export function Sidebar() {
               <Button
                 onClick={handleCreateGroup}
                 disabled={mutation.isPending || !(groupName && categoryId)}
-                className={mutation.isPending || !(groupName && categoryId) ? "bg-gray-300": ""}
+                className={
+                  mutation.isPending || !(groupName && categoryId)
+                    ? "bg-gray-300"
+                    : "cursor-pointer"
+                }
               >
                 {mutation.isPending ? (
                   <Loader2 className="animate-spin" />

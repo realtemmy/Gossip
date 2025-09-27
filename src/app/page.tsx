@@ -70,9 +70,11 @@ interface User {
 }
 
 export default function HomePage() {
-  const user = useSession();
-  const { searchQuery, selectedCategory } = useCategory();
+  const { data } = useSession();
+  const user = data?.user;
   
+  const { searchQuery, selectedCategory } = useCategory();
+
   const {
     data: category,
     isLoading,
@@ -80,7 +82,7 @@ export default function HomePage() {
   } = useQuery<Category>({
     queryKey: ["groups", selectedCategory],
     queryFn: async () => {
-      const response = await axios.get(`/api/groups/${selectedCategory}/category`);
+      const response = await axios.get(`/api/category/${selectedCategory}`);
       return response.data;
     },
     enabled: !!selectedCategory,

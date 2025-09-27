@@ -70,9 +70,11 @@ interface User {
 }
 
 export default function HomePage() {
-  const user = useSession();
-  const { searchQuery, selectedCategory } = useCategory();
+  const { data } = useSession();
+  const user = data?.user;
   
+  const { searchQuery, selectedCategory } = useCategory();
+
   const {
     data: category,
     isLoading,

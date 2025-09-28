@@ -31,6 +31,7 @@ import {
 } from "../ui/select";
 
 import axios from "axios";
+import { useDebounce } from "@/hooks/useDebounce";
 
 interface Category {
   id: number;
@@ -46,18 +47,24 @@ export function Sidebar() {
   const [groupName, setGroupName] = useState<string>("");
   const [categoryId, setCategoryId] = useState<string>("");
 
-  const {
-    data: categories = [],
-    isLoading,
-    error,
-    isError,
-  } = useQuery<Category[]>({
-    queryKey: ["categories"],
-    queryFn: async () => {
-      const response = await axios.get("/api/category");
-      return response.data;
-    },
-  });
+  const { searchQuery, selectedCategory, setSearchQuery, setSelectedCategory } =
+    useCategory();
+
+    const debouncedSearch = useDebounce(searchQuery, 500);
+
+ const {
+   data: categories = [],
+   isLoading,
+   error,
+   isError,
+ } = useQuery<Category[]>({
+   queryKey: ["categories", searchQuery],
+   queryFn: async () => {
+     const response = await axios.get(`/api/category?name=${searchQuery}`);
+     return response.data;
+   },
+   enabled: debouncedSearch !== undefined,
+ });
 
   const mutation = useMutation({
     mutationFn: async () => {
@@ -80,8 +87,6 @@ export function Sidebar() {
     mutation.mutate();
   };
 
-  const { searchQuery, selectedCategory, setSearchQuery, setSelectedCategory } =
-    useCategory();
 
   if (error) return <div>Error loading categories</div>;
   return (
@@ -104,7 +109,7 @@ export function Sidebar() {
         <div className="relative">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
           <Input
-            placeholder="Search groups..."
+            placeholder="Search categories..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-10"

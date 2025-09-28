@@ -3,9 +3,18 @@ import { PrismaClient } from "@/generated/prisma";
 
 const prisma = new PrismaClient();
 
-export const GET = async () => {
+export const GET = async (request: NextRequest) => {
+  const name = request.nextUrl.searchParams.get("name");
   try {
     const categories = await prisma.category.findMany({
+      where: name
+        ? {
+            name: {
+              contains: name,
+              mode: "insensitive",
+            },
+          }
+        : undefined,
       include: {
         _count: {
           select: { groups: true },

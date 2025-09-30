@@ -6,8 +6,17 @@ const prisma = new PrismaClient();
 
 // Return all Group
 export const GET = async (request: NextRequest) => {
+  const name = request.nextUrl.searchParams.get("name");
   try {
     const groups = await prisma.group.findMany({
+      where: name
+        ? {
+            name: {
+              contains: name,
+              mode: "insensitive",
+            },
+          }
+        : undefined,
       select: {
         name: true,
         id: true,

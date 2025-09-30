@@ -3,21 +3,14 @@ import { PrismaClient } from "@/generated/prisma";
 
 const prisma = new PrismaClient();
 
-export const GET = async (
-  req: NextRequest,
-  { params }: { params: { groupId: number } }
-) => {
-  console.log(params);
-  const { groupId } = await params;
-  if (!groupId) {
-    return NextResponse.json(
-      { error: "Group ID is required." },
-      { status: 400 }
-    );
-  }
-  const response = prisma.conversation.findFirst({
+export const GET = async (request: NextRequest) => {
+  const title = request.nextUrl.searchParams.get("title");
+  const groupId = request.nextUrl.searchParams.get("groupId");
+
+  const response = await prisma.conversation.findMany({
     where: {
-      group_id: Number(groupId),
+      group_id: groupId ? Number(groupId) : undefined,
+      title: title ? { contains: title, mode: "insensitive" } : undefined,
     },
   });
 

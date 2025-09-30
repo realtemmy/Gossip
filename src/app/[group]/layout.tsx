@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { useParams } from "next/navigation";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Hash, Settings, Search, Plus } from "lucide-react";
+import { Hash, Settings, Search, Plus, Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -28,6 +28,7 @@ import {
 } from "@/components/ui/select";
 
 import { useConversation } from "@/contexts/conversation-context";
+import { useDebounce } from "@/hooks/useDebounce";
 
 import axios from "axios";
 import { Label } from "@/components/ui/label";
@@ -59,26 +60,54 @@ export default function ChatLayout({ children }: ChatLayoutProps) {
   const queryClient = useQueryClient();
   const { group } = params;
   const [activeChannel, setActiveChannel] = useState("");
+  const [searchQuery, setSearchQuery] = useState<string>("");
   const [conversationTitle, setConversastionTitle] = useState<string>("");
   const [converstionGroupId, setConversationGroupId] = useState<number>(0);
+  const [conversations, setConversations] = useState<Conversation[] | []>([]);
+  const [open, setOpen] = useState<boolean>(false);
   const { setSelectedConversation } = useConversation();
 
   const { data, isLoading, isError, error } = useQuery<Group>({
     queryKey: ["conversations", group],
     queryFn: async () => {
       const response = await axios.get(`../api/groups/${group}`);
+      setConversations(response.data.conversations);
       return response.data;
     },
   });
 
-  const { data: groups } = useQuery({
+  const debouncedSearch = useDebounce(searchQuery, 500);
+
+  const {
+    isLoading: convoLoading,
+    isError: isConvoError,
+    error: convoError,
+  } = useQuery({
+    queryKey: ["conversation", `search-${searchQuery}`],
+    queryFn: async () => {
+      const response = await axios.get(
+        `../api/conversation?title=${searchQuery}&groupId=${data?.id}`
+      );
+      console.log("Search result: ", response.data);
+      setConversations(response.data);
+      return response.data;
+    },
+    enabled: !!data?.id && !!debouncedSearch,
+  });
+
+  const {
+    data: groups,
+    isLoading: groupLoading,
+    isError: isGroupError,
+    error: groupError,
+  } = useQuery({
     queryKey: ["groups"],
     queryFn: async () => {
       const response = await axios.get("../api/groups");
-      // console.log("Groups: ", response.data);
+      console.log("Groups: ", response.data);
       return response.data;
     },
-    // enabled:
+    enabled: open,
   });
 
   const mutation = useMutation({
@@ -91,6 +120,7 @@ export default function ChatLayout({ children }: ChatLayoutProps) {
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["groups"] });
+      setOpen(false);
     },
   });
 
@@ -130,120 +160,139 @@ export default function ChatLayout({ children }: ChatLayoutProps) {
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 h-4 w-4" />
             <Input
               type="text"
-              placeholder="Search channels, people..."
+              placeholder="Search conversations..."
               className="pl-10 focus:ring-blue-500 focus:border-blue-500"
+              value={searchQuery}
+              onChange={(event) => setSearchQuery(event.target.value)}
             />
           </div>
         </div>
 
         {/* Groups */}
-        <ScrollArea className="flex-1">
-          <div className="px-4 py-2">
-            <div className="flex items-center justify-between mb-3">
-              <h2 className="text-sm font-semibold uppercase tracking-wide">
-                {data.name || "Conversations"}
-              </h2>
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="h-6 w-6 p-0 cursor-pointer"
-                  >
-                    <Plus className="h-4 w-4" />
-                  </Button>
-                </DialogTrigger>
-                <DialogContent className="sm:max-w-[425px]">
-                  <DialogHeader>
-                    <DialogTitle>Create Conversation</DialogTitle>
-                    <DialogDescription>
-                      Create a conversation to chat about specifics of your
-                      choice.
-                    </DialogDescription>
-                  </DialogHeader>
-                  <div className="grid gap-4">
-                    <div className="grid gap-3">
-                      <Label htmlFor="conversation-title">Title</Label>
-                      <Input
-                        id="conversation-title"
-                        onChange={(event) =>
-                          setConversastionTitle(event.target.value)
-                        }
-                      />
-                    </div>
-                    <div className="grid gap-3">
-                      <Label htmlFor="username-1">Group</Label>
-                      <Select
-                        onValueChange={(value) => setConversationGroupId(value)}
-                      >
-                        <SelectTrigger className="w-full">
-                          <SelectValue placeholder="Select Conversation Group" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectGroup>
-                            <SelectLabel>Groups</SelectLabel>
-                            {groups.map((group: Group) => (
+        <div className="px-4 py-2">
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-sm font-semibold uppercase tracking-wide">
+              {data.name || "Conversations"}
+            </h2>
+            <Dialog open={open} onOpenChange={setOpen}>
+              <DialogTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-6 w-6 p-0 cursor-pointer"
+                >
+                  <Plus className="h-4 w-4" />
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                  <DialogTitle>Create Conversation</DialogTitle>
+                  <DialogDescription>
+                    Create a conversation to chat about specifics of your
+                    choice.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="grid gap-4">
+                  <div className="grid gap-3">
+                    <Label htmlFor="conversation-title">Title</Label>
+                    <Input
+                      id="conversation-title"
+                      onChange={(event) =>
+                        setConversastionTitle(event.target.value)
+                      }
+                    />
+                  </div>
+                  <div className="grid gap-3">
+                    <Label htmlFor="username-1">Group</Label>
+                    <Select
+                      onValueChange={(value) =>
+                        setConversationGroupId(Number(value))
+                      }
+                    >
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select Conversation Group" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectLabel>Groups</SelectLabel>
+                          {groupLoading ? (
+                            <Loader2 className="animate-spin" />
+                          ) : isGroupError ? (
+                            <div>Error: {groupError.message}</div>
+                          ) : (
+                            groups?.map((group: Group) => (
                               <SelectItem value={group.id} key={group.id}>
                                 {group.name}
                               </SelectItem>
-                            ))}
-                          </SelectGroup>
-                        </SelectContent>
-                      </Select>
-                    </div>
+                            ))
+                          )}
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
                   </div>
-                  <DialogFooter>
-                    <DialogClose asChild>
-                      <Button variant="outline">Cancel</Button>
-                    </DialogClose>
-                    <Button onClick={handleCreateConversation}>
-                      Save changes
-                    </Button>
-                  </DialogFooter>
-                </DialogContent>
-              </Dialog>
-            </div>
-            <div className="space-y-1">
-              {data &&
-              Array.isArray(data.conversations) &&
-              data.conversations.length > 0 ? (
-                data.conversations.map((convo) => (
+                </div>
+                <DialogFooter>
+                  <DialogClose asChild>
+                    <Button variant="outline">Cancel</Button>
+                  </DialogClose>
                   <Button
-                    key={convo.id}
-                    variant="ghost"
-                    onClick={() => {
-                      setActiveChannel(convo.title);
-                      setSelectedConversation({
-                        title: convo.title,
-                        id: convo.id,
-                      });
-                    }}
-                    className={`w-full justify-between px-3 py-2 h-auto text-left font-normal hover:text-white ${
-                      activeChannel === convo.title
-                        ? "bg-slate-800 text-white hover:bg-slate-600"
-                        : "text-slate-600 hover:bg-slate-600 hover:text-white"
-                    }`}
+                    onClick={handleCreateConversation}
+                    disabled={mutation.isPending}
                   >
-                    <div className="flex items-center">
-                      <Hash className="mr-2 h-4 w-4" />
-                      <span className="text-sm">{convo.title}</span>
-                    </div>
-                    {convo.unread && (
-                      <Badge
-                        variant="destructive"
-                        className="h-5 min-w-[20px] text-xs px-1.5"
-                      >
-                        {convo.unread}
-                      </Badge>
+                    {mutation.isPending ? (
+                      <Loader2 className="animate-spin" />
+                    ) : (
+                      <span>Save changes</span>
                     )}
                   </Button>
-                ))
-              ) : (
-                <div className="text-sm">No conversations found.</div>
-              )}
-            </div>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
           </div>
-        </ScrollArea>
+          <ScrollArea className="space-y-1 h-[calc(100vh-200px)]">
+            {convoLoading ? (
+              <Loader2 className="animate-spin" />
+            ) : isConvoError ? (
+              <div>
+                There was an error getting conversations: {convoError.message}
+              </div>
+            ) : conversations.length > 0 ? (
+              conversations.map((convo) => (
+                <Button
+                  key={convo.id}
+                  variant="ghost"
+                  onClick={() => {
+                    setActiveChannel(convo.title);
+                    setSelectedConversation({
+                      title: convo.title,
+                      id: convo.id,
+                    });
+                  }}
+                  className={`w-full justify-between px-3 py-2 h-auto text-left font-normal hover:text-white ${
+                    activeChannel === convo.title
+                      ? "bg-slate-800 text-white hover:bg-slate-600"
+                      : "text-slate-600 hover:bg-slate-600 hover:text-white"
+                  }`}
+                >
+                  <div className="flex items-center">
+                    <Hash className="mr-2 h-4 w-4" />
+                    <span className="text-sm">{convo.title}</span>
+                  </div>
+                  {convo.unread && (
+                    <Badge
+                      variant="destructive"
+                      className="h-5 min-w-[20px] text-xs px-1.5"
+                    >
+                      {convo.unread}
+                    </Badge>
+                  )}
+                </Button>
+              ))
+            ) : (
+              <div className="text-sm">No conversations found.</div>
+            )}
+          </ScrollArea>
+        </div>
       </div>
 
       {/* Main Content */}

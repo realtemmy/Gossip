@@ -49,6 +49,7 @@ model Conversation {
   participants User[]
   unread       Int       @default(0)
 
+  @@unique([title, group_id])
   @@map("conversations")
 }
 

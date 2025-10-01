@@ -302,7 +302,7 @@ export default function ChatLayout({ children }: ChatLayoutProps) {
                   onClick={() => handleConversationClick(convo)}
                   className={`w-full justify-between px-3 py-2.5 h-auto text-left font-normal transition-all ${
                     activeChannel === convo.title
-                      ? "bg-primary text-primary-foreground hover:bg-primary/90"
+                      ? "bg-primary text-primary-foreground hover:bg-primary/90 hover:text-white"
                       : "hover:bg-accent hover:text-accent-foreground"
                   }`}
                 >

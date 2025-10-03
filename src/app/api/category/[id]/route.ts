@@ -5,9 +5,9 @@ const prisma = new PrismaClient();
 
 export const GET = async (
   request: NextRequest,
-  context: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) => {
-  const { id } = context.params;
+  const { id } = await context.params;
   // console.log("Fetching category with name:", id);
 
   if (!id) {

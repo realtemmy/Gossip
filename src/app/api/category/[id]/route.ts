@@ -4,15 +4,15 @@ import { PrismaClient } from "@/generated/prisma";
 const prisma = new PrismaClient();
 
 export  const GET = async (
-  req: NextRequest,
+  request: NextRequest,
   { params }: { params: { id: string } }
 ) => {
-  const { id } = await params;
+  const { id } = params;
   // console.log("Fetching category with name:", id);
 
   if (!id) {
     return NextResponse.json(
-      { error: "Category name is required." },
+      { error: `Category with ID: ${id} not found.` },
       { status: 400 }
     );
   }

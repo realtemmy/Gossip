@@ -3,11 +3,11 @@ import { PrismaClient } from "@/generated/prisma";
 
 const prisma = new PrismaClient();
 
-export  const GET = async (
+export const GET = async (
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) => {
-  const { id } = params;
+  const { id } = context.params;
   // console.log("Fetching category with name:", id);
 
   if (!id) {
@@ -20,7 +20,7 @@ export  const GET = async (
   try {
     const category = await prisma.category.findUnique({
       where: {
-        id: parseInt(id)
+        id: parseInt(id),
       },
       include: {
         groups: true,

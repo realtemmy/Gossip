@@ -61,7 +61,7 @@ model User {
   emailVerified DateTime?
   image         String?
   verified      Boolean        @default(false)
-  bio           String
+  bio           String?
   
   accounts      Account[]
   sessions      Session[]

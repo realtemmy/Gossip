@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Hash, Settings, Search, Plus, Loader2, Menu, X } from "lucide-react";
@@ -58,6 +59,7 @@ export default function ChatLayout({ children }: ChatLayoutProps) {
   const params = useParams();
   const queryClient = useQueryClient();
   const { group } = params;
+  const { data: session } = useSession();
   const [activeChannel, setActiveChannel] = useState("");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [conversationTitle, setConversastionTitle] = useState<string>("");
@@ -66,6 +68,8 @@ export default function ChatLayout({ children }: ChatLayoutProps) {
   const [open, setOpen] = useState<boolean>(false);
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
   const { setSelectedConversation } = useConversation();
+
+  const user = session?.user;
 
   const { data, isLoading, isError, error } = useQuery<Group>({
     queryKey: ["conversations", group],
@@ -196,15 +200,18 @@ export default function ChatLayout({ children }: ChatLayoutProps) {
             {data.name || "Conversations"}
           </h2>
           <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-7 w-7 hover:bg-primary/10"
-              >
-                <Plus className="h-4 w-4" />
-              </Button>
-            </DialogTrigger>
+            {user?.verified && (
+              <DialogTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-7 w-7 hover:bg-primary/10"
+                >
+                  <Plus className="h-4 w-4" />
+                </Button>
+              </DialogTrigger>
+            )}
+
             <DialogContent className="sm:max-w-[425px]">
               <DialogHeader>
                 <DialogTitle>Create Conversation</DialogTitle>

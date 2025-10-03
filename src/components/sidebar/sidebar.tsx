@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useSession } from "next-auth/react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Search, Plus, Settings, Bell, Loader, Loader2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -49,6 +50,8 @@ interface SidebarProps {
 }
 
 function SidebarContent({ onItemClick }: { onItemClick?: () => void }) {
+  const { data } = useSession();
+  const user = data?.user;
   const queryClient = useQueryClient();
   const [open, setOpen] = useState<boolean>(false);
   const [groupName, setGroupName] = useState<string>("");
@@ -200,7 +203,15 @@ function SidebarContent({ onItemClick }: { onItemClick?: () => void }) {
       <div className="p-3 lg:p-4 border-t bg-card/50">
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
-            <Button className="w-full gap-2 h-11 bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90 shadow-lg hover:shadow-xl transition-all">
+            <Button
+              className="w-full gap-2 h-11 bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90 shadow-lg hover:shadow-xl transition-all"
+              disabled={!user?.verified}
+              title={
+                user?.verified
+                  ? "Create new Group"
+                  : "Only verified user's can create account"
+              }
+            >
               <Plus className="w-4 h-4" />
               Create New Group
             </Button>

@@ -12,12 +12,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(prisma),
   callbacks: {
     async session({ session, user }) {
+      // console.log("Auth: ", session, user);
       return {
         user: {
           id: user.id,
           name: user.name,
           email: user.email,
           image: user.image,
+          verified: user.verified
         },
         expires: session.expires,
       };

@@ -135,7 +135,6 @@ exports.Prisma.GroupScalarFieldEnum = {
   name: 'name',
   slug: 'slug',
   categoryId: 'categoryId',
-  members: 'members',
   lastActive: 'lastActive',
   trending: 'trending',
   verified: 'verified'
@@ -145,6 +144,7 @@ exports.Prisma.ConversationScalarFieldEnum = {
   id: 'id',
   title: 'title',
   isGroup: 'isGroup',
+  members: 'members',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   group_id: 'group_id',
@@ -157,6 +157,8 @@ exports.Prisma.UserScalarFieldEnum = {
   email: 'email',
   emailVerified: 'emailVerified',
   image: 'image',
+  verified: 'verified',
+  bio: 'bio',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };

@@ -70,6 +70,7 @@ interface User {
   email: string;
   image: string;
   emailVerified: boolean | null;
+  verified: boolean;
   createdAt: string;
   updatedAt: string;
 }
@@ -77,6 +78,7 @@ interface User {
 export default function HomePage() {
   const { data } = useSession();
   const user = data?.user;
+
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [groupSearchQuery, setGroupSearchQuery] = useState("");
 
@@ -95,17 +97,6 @@ export default function HomePage() {
     enabled: !!selectedCategory,
   });
 
-  const formatMembers = (count: number) => {
-    if (count >= 1000000) {
-      return `${(count / 1000000).toFixed(1)}M`;
-    }
-    if (count >= 1000) {
-      return `${(count / 1000).toFixed(1)}k`;
-    }
-    return count.toString();
-  };
-
-  // Filter groups based on search query
   const filteredGroups =
     category?.groups.filter((group) =>
       group.name.toLowerCase().includes(groupSearchQuery.toLowerCase())
@@ -276,11 +267,11 @@ export default function HomePage() {
                     <div>
                       <h1 className="text-2xl font-bold">{category.name}</h1>
                       <p className="text-muted-foreground text-sm">
-                        {category.count} groups •{" "}
-                        {category.groups
-                          .reduce((acc, group) => acc + group.members, 0)
-                          .toLocaleString()}{" "}
-                        total members
+                        {category.groups.length > 1 ? (
+                          <span>{category.groups.length} groups</span>
+                        ) : (
+                          <span>{category.groups.length} group</span>
+                        )}
                       </p>
                     </div>
                   </div>
@@ -302,17 +293,29 @@ export default function HomePage() {
                     {user ? (
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <Avatar className="cursor-pointer hover:ring-2 hover:ring-primary transition-all">
-                            <AvatarImage
-                              src={
-                                user.image ?? "https://github.com/shadcn.png"
-                              }
-                              alt={user.name ?? "User"}
-                            />
-                            <AvatarFallback>
-                              {user.name?.charAt(0).toUpperCase() ?? "U"}
-                            </AvatarFallback>
-                          </Avatar>
+                          <div className="relative">
+                            <Avatar className="cursor-pointer hover:ring-2 hover:ring-primary transition-all">
+                              <AvatarImage
+                                src={
+                                  user.image ?? "https://github.com/shadcn.png"
+                                }
+                                alt={user.name ?? "User"}
+                              />
+                              <AvatarFallback>
+                                {user.name?.charAt(0).toUpperCase() ?? "U"}
+                              </AvatarFallback>
+                            </Avatar>
+                            {user.verified && (
+                              <sup className="absolute top-2 left-4 -translate-y-1/2">
+                                <BadgeCheck
+                                  absoluteStrokeWidth
+                                  strokeWidth={2.5}
+                                  className="text-white bg-blue-600 p-0 rounded-full"
+                                  size={20}
+                                />
+                              </sup>
+                            )}
+                          </div>
                         </DropdownMenuTrigger>
 
                         <DropdownMenuContent
@@ -321,7 +324,7 @@ export default function HomePage() {
                           sideOffset={4}
                         >
                           <DropdownMenuLabel className="p-0 font-normal">
-                            <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
+                            <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm relative">
                               <Avatar className="h-8 w-8">
                                 <AvatarImage
                                   src={
@@ -334,6 +337,16 @@ export default function HomePage() {
                                   {user.name?.charAt(0).toUpperCase() ?? "U"}
                                 </AvatarFallback>
                               </Avatar>
+                              {user.verified && (
+                                <sup className="absolute top-3 left-5 -translate-y-1/2">
+                                  <BadgeCheck
+                                    absoluteStrokeWidth
+                                    strokeWidth={2.5}
+                                    className="text-white bg-blue-600 p-0 rounded-full"
+                                    size={20}
+                                  />
+                                </sup>
+                              )}
 
                               <div className="grid flex-1 text-left text-sm leading-tight">
                                 <span className="truncate font-medium">
@@ -346,14 +359,17 @@ export default function HomePage() {
                             </div>
                           </DropdownMenuLabel>
 
-                          <DropdownMenuSeparator />
-
-                          <DropdownMenuGroup>
-                            <DropdownMenuItem>
-                              <Sparkles className="mr-2 h-4 w-4" />
-                              Upgrade to Pro
-                            </DropdownMenuItem>
-                          </DropdownMenuGroup>
+                          {!user.verified && (
+                            <>
+                              <DropdownMenuSeparator />
+                              <DropdownMenuGroup>
+                                <DropdownMenuItem>
+                                  <Sparkles className="mr-2 h-4 w-4" />
+                                  Upgrade to Pro
+                                </DropdownMenuItem>
+                              </DropdownMenuGroup>
+                            </>
+                          )}
 
                           <DropdownMenuSeparator />
 
@@ -407,14 +423,11 @@ export default function HomePage() {
                       {category.name}
                     </h1>
                     <p className="text-muted-foreground text-xs">
-                      {category.count} groups •{" "}
-                      {formatMembers(
-                        category.groups.reduce(
-                          (acc, group) => acc + group.members,
-                          0
-                        )
-                      )}{" "}
-                      members
+                      {category.groups.length > 1 ? (
+                        <span>{category.groups.length} groups</span>
+                      ) : (
+                        <span>{category.groups.length} group</span>
+                      )}
                     </p>
                   </div>
                 </div>
@@ -507,7 +520,7 @@ export default function HomePage() {
                               <div className="flex items-center gap-1.5 min-w-0">
                                 <Users className="w-4 h-4 flex-shrink-0" />
                                 <span className="truncate">
-                                  {formatMembers(group.members)}
+                                  {/* {formatMembers(group.members)} */}
                                 </span>
                               </div>
                               <div className="flex items-center gap-1.5 min-w-0">

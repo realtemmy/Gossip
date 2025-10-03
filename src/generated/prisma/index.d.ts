@@ -2832,13 +2832,11 @@ export namespace Prisma {
   export type GroupAvgAggregateOutputType = {
     id: number | null
     categoryId: number | null
-    members: number | null
   }
 
   export type GroupSumAggregateOutputType = {
     id: number | null
     categoryId: number | null
-    members: number | null
   }
 
   export type GroupMinAggregateOutputType = {
@@ -2846,7 +2844,6 @@ export namespace Prisma {
     name: string | null
     slug: string | null
     categoryId: number | null
-    members: number | null
     lastActive: Date | null
     trending: boolean | null
     verified: boolean | null
@@ -2857,7 +2854,6 @@ export namespace Prisma {
     name: string | null
     slug: string | null
     categoryId: number | null
-    members: number | null
     lastActive: Date | null
     trending: boolean | null
     verified: boolean | null
@@ -2868,7 +2864,6 @@ export namespace Prisma {
     name: number
     slug: number
     categoryId: number
-    members: number
     lastActive: number
     trending: number
     verified: number
@@ -2879,13 +2874,11 @@ export namespace Prisma {
   export type GroupAvgAggregateInputType = {
     id?: true
     categoryId?: true
-    members?: true
   }
 
   export type GroupSumAggregateInputType = {
     id?: true
     categoryId?: true
-    members?: true
   }
 
   export type GroupMinAggregateInputType = {
@@ -2893,7 +2886,6 @@ export namespace Prisma {
     name?: true
     slug?: true
     categoryId?: true
-    members?: true
     lastActive?: true
     trending?: true
     verified?: true
@@ -2904,7 +2896,6 @@ export namespace Prisma {
     name?: true
     slug?: true
     categoryId?: true
-    members?: true
     lastActive?: true
     trending?: true
     verified?: true
@@ -2915,7 +2906,6 @@ export namespace Prisma {
     name?: true
     slug?: true
     categoryId?: true
-    members?: true
     lastActive?: true
     trending?: true
     verified?: true
@@ -3013,7 +3003,6 @@ export namespace Prisma {
     name: string
     slug: string
     categoryId: number
-    members: number
     lastActive: Date
     trending: boolean
     verified: boolean
@@ -3043,7 +3032,6 @@ export namespace Prisma {
     name?: boolean
     slug?: boolean
     categoryId?: boolean
-    members?: boolean
     lastActive?: boolean
     trending?: boolean
     verified?: boolean
@@ -3057,7 +3045,6 @@ export namespace Prisma {
     name?: boolean
     slug?: boolean
     categoryId?: boolean
-    members?: boolean
     lastActive?: boolean
     trending?: boolean
     verified?: boolean
@@ -3069,7 +3056,6 @@ export namespace Prisma {
     name?: boolean
     slug?: boolean
     categoryId?: boolean
-    members?: boolean
     lastActive?: boolean
     trending?: boolean
     verified?: boolean
@@ -3081,13 +3067,12 @@ export namespace Prisma {
     name?: boolean
     slug?: boolean
     categoryId?: boolean
-    members?: boolean
     lastActive?: boolean
     trending?: boolean
     verified?: boolean
   }
 
-  export type GroupOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "categoryId" | "members" | "lastActive" | "trending" | "verified", ExtArgs["result"]["group"]>
+  export type GroupOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "categoryId" | "lastActive" | "trending" | "verified", ExtArgs["result"]["group"]>
   export type GroupInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     conversations?: boolean | Group$conversationsArgs<ExtArgs>
     Category?: boolean | CategoryDefaultArgs<ExtArgs>
@@ -3111,7 +3096,6 @@ export namespace Prisma {
       name: string
       slug: string
       categoryId: number
-      members: number
       lastActive: Date
       trending: boolean
       verified: boolean
@@ -3544,7 +3528,6 @@ export namespace Prisma {
     readonly name: FieldRef<"Group", 'String'>
     readonly slug: FieldRef<"Group", 'String'>
     readonly categoryId: FieldRef<"Group", 'Int'>
-    readonly members: FieldRef<"Group", 'Int'>
     readonly lastActive: FieldRef<"Group", 'DateTime'>
     readonly trending: FieldRef<"Group", 'Boolean'>
     readonly verified: FieldRef<"Group", 'Boolean'>
@@ -4000,12 +3983,14 @@ export namespace Prisma {
 
   export type ConversationAvgAggregateOutputType = {
     id: number | null
+    members: number | null
     group_id: number | null
     unread: number | null
   }
 
   export type ConversationSumAggregateOutputType = {
     id: number | null
+    members: number | null
     group_id: number | null
     unread: number | null
   }
@@ -4014,6 +3999,7 @@ export namespace Prisma {
     id: number | null
     title: string | null
     isGroup: boolean | null
+    members: number | null
     createdAt: Date | null
     updatedAt: Date | null
     group_id: number | null
@@ -4024,6 +4010,7 @@ export namespace Prisma {
     id: number | null
     title: string | null
     isGroup: boolean | null
+    members: number | null
     createdAt: Date | null
     updatedAt: Date | null
     group_id: number | null
@@ -4034,6 +4021,7 @@ export namespace Prisma {
     id: number
     title: number
     isGroup: number
+    members: number
     createdAt: number
     updatedAt: number
     group_id: number
@@ -4044,12 +4032,14 @@ export namespace Prisma {
 
   export type ConversationAvgAggregateInputType = {
     id?: true
+    members?: true
     group_id?: true
     unread?: true
   }
 
   export type ConversationSumAggregateInputType = {
     id?: true
+    members?: true
     group_id?: true
     unread?: true
   }
@@ -4058,6 +4048,7 @@ export namespace Prisma {
     id?: true
     title?: true
     isGroup?: true
+    members?: true
     createdAt?: true
     updatedAt?: true
     group_id?: true
@@ -4068,6 +4059,7 @@ export namespace Prisma {
     id?: true
     title?: true
     isGroup?: true
+    members?: true
     createdAt?: true
     updatedAt?: true
     group_id?: true
@@ -4078,6 +4070,7 @@ export namespace Prisma {
     id?: true
     title?: true
     isGroup?: true
+    members?: true
     createdAt?: true
     updatedAt?: true
     group_id?: true
@@ -4175,6 +4168,7 @@ export namespace Prisma {
     id: number
     title: string
     isGroup: boolean
+    members: number
     createdAt: Date
     updatedAt: Date
     group_id: number
@@ -4204,6 +4198,7 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     isGroup?: boolean
+    members?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     group_id?: boolean
@@ -4218,6 +4213,7 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     isGroup?: boolean
+    members?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     group_id?: boolean
@@ -4229,6 +4225,7 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     isGroup?: boolean
+    members?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     group_id?: boolean
@@ -4240,13 +4237,14 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     isGroup?: boolean
+    members?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     group_id?: boolean
     unread?: boolean
   }
 
-  export type ConversationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "isGroup" | "createdAt" | "updatedAt" | "group_id" | "unread", ExtArgs["result"]["conversation"]>
+  export type ConversationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "isGroup" | "members" | "createdAt" | "updatedAt" | "group_id" | "unread", ExtArgs["result"]["conversation"]>
   export type ConversationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     groups?: boolean | GroupDefaultArgs<ExtArgs>
     messages?: boolean | Conversation$messagesArgs<ExtArgs>
@@ -4271,6 +4269,7 @@ export namespace Prisma {
       id: number
       title: string
       isGroup: boolean
+      members: number
       createdAt: Date
       updatedAt: Date
       group_id: number
@@ -4704,6 +4703,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Conversation", 'Int'>
     readonly title: FieldRef<"Conversation", 'String'>
     readonly isGroup: FieldRef<"Conversation", 'Boolean'>
+    readonly members: FieldRef<"Conversation", 'Int'>
     readonly createdAt: FieldRef<"Conversation", 'DateTime'>
     readonly updatedAt: FieldRef<"Conversation", 'DateTime'>
     readonly group_id: FieldRef<"Conversation", 'Int'>
@@ -5186,6 +5186,8 @@ export namespace Prisma {
     email: string | null
     emailVerified: Date | null
     image: string | null
+    verified: boolean | null
+    bio: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -5196,6 +5198,8 @@ export namespace Prisma {
     email: string | null
     emailVerified: Date | null
     image: string | null
+    verified: boolean | null
+    bio: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -5206,6 +5210,8 @@ export namespace Prisma {
     email: number
     emailVerified: number
     image: number
+    verified: number
+    bio: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -5218,6 +5224,8 @@ export namespace Prisma {
     email?: true
     emailVerified?: true
     image?: true
+    verified?: true
+    bio?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -5228,6 +5236,8 @@ export namespace Prisma {
     email?: true
     emailVerified?: true
     image?: true
+    verified?: true
+    bio?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -5238,6 +5248,8 @@ export namespace Prisma {
     email?: true
     emailVerified?: true
     image?: true
+    verified?: true
+    bio?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -5321,6 +5333,8 @@ export namespace Prisma {
     email: string
     emailVerified: Date | null
     image: string | null
+    verified: boolean
+    bio: string | null
     createdAt: Date
     updatedAt: Date
     _count: UserCountAggregateOutputType | null
@@ -5348,6 +5362,8 @@ export namespace Prisma {
     email?: boolean
     emailVerified?: boolean
     image?: boolean
+    verified?: boolean
+    bio?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     accounts?: boolean | User$accountsArgs<ExtArgs>
@@ -5363,6 +5379,8 @@ export namespace Prisma {
     email?: boolean
     emailVerified?: boolean
     image?: boolean
+    verified?: boolean
+    bio?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["user"]>
@@ -5373,6 +5391,8 @@ export namespace Prisma {
     email?: boolean
     emailVerified?: boolean
     image?: boolean
+    verified?: boolean
+    bio?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["user"]>
@@ -5383,11 +5403,13 @@ export namespace Prisma {
     email?: boolean
     emailVerified?: boolean
     image?: boolean
+    verified?: boolean
+    bio?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "verified" | "bio" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     accounts?: boolean | User$accountsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
@@ -5412,6 +5434,8 @@ export namespace Prisma {
       email: string
       emailVerified: Date | null
       image: string | null
+      verified: boolean
+      bio: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["user"]>
@@ -5846,6 +5870,8 @@ export namespace Prisma {
     readonly email: FieldRef<"User", 'String'>
     readonly emailVerified: FieldRef<"User", 'DateTime'>
     readonly image: FieldRef<"User", 'String'>
+    readonly verified: FieldRef<"User", 'Boolean'>
+    readonly bio: FieldRef<"User", 'String'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
   }
@@ -10735,7 +10761,6 @@ export namespace Prisma {
     name: 'name',
     slug: 'slug',
     categoryId: 'categoryId',
-    members: 'members',
     lastActive: 'lastActive',
     trending: 'trending',
     verified: 'verified'
@@ -10748,6 +10773,7 @@ export namespace Prisma {
     id: 'id',
     title: 'title',
     isGroup: 'isGroup',
+    members: 'members',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     group_id: 'group_id',
@@ -10763,6 +10789,8 @@ export namespace Prisma {
     email: 'email',
     emailVerified: 'emailVerified',
     image: 'image',
+    verified: 'verified',
+    bio: 'bio',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -11006,7 +11034,6 @@ export namespace Prisma {
     name?: StringFilter<"Group"> | string
     slug?: StringFilter<"Group"> | string
     categoryId?: IntFilter<"Group"> | number
-    members?: IntFilter<"Group"> | number
     lastActive?: DateTimeFilter<"Group"> | Date | string
     trending?: BoolFilter<"Group"> | boolean
     verified?: BoolFilter<"Group"> | boolean
@@ -11019,7 +11046,6 @@ export namespace Prisma {
     name?: SortOrder
     slug?: SortOrder
     categoryId?: SortOrder
-    members?: SortOrder
     lastActive?: SortOrder
     trending?: SortOrder
     verified?: SortOrder
@@ -11029,26 +11055,25 @@ export namespace Prisma {
 
   export type GroupWhereUniqueInput = Prisma.AtLeast<{
     id?: number
+    name_categoryId?: GroupNameCategoryIdCompoundUniqueInput
     AND?: GroupWhereInput | GroupWhereInput[]
     OR?: GroupWhereInput[]
     NOT?: GroupWhereInput | GroupWhereInput[]
     name?: StringFilter<"Group"> | string
     slug?: StringFilter<"Group"> | string
     categoryId?: IntFilter<"Group"> | number
-    members?: IntFilter<"Group"> | number
     lastActive?: DateTimeFilter<"Group"> | Date | string
     trending?: BoolFilter<"Group"> | boolean
     verified?: BoolFilter<"Group"> | boolean
     conversations?: ConversationListRelationFilter
     Category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
-  }, "id">
+  }, "id" | "name_categoryId">
 
   export type GroupOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
     slug?: SortOrder
     categoryId?: SortOrder
-    members?: SortOrder
     lastActive?: SortOrder
     trending?: SortOrder
     verified?: SortOrder
@@ -11067,7 +11092,6 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"Group"> | string
     slug?: StringWithAggregatesFilter<"Group"> | string
     categoryId?: IntWithAggregatesFilter<"Group"> | number
-    members?: IntWithAggregatesFilter<"Group"> | number
     lastActive?: DateTimeWithAggregatesFilter<"Group"> | Date | string
     trending?: BoolWithAggregatesFilter<"Group"> | boolean
     verified?: BoolWithAggregatesFilter<"Group"> | boolean
@@ -11080,6 +11104,7 @@ export namespace Prisma {
     id?: IntFilter<"Conversation"> | number
     title?: StringFilter<"Conversation"> | string
     isGroup?: BoolFilter<"Conversation"> | boolean
+    members?: IntFilter<"Conversation"> | number
     createdAt?: DateTimeFilter<"Conversation"> | Date | string
     updatedAt?: DateTimeFilter<"Conversation"> | Date | string
     group_id?: IntFilter<"Conversation"> | number
@@ -11093,6 +11118,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     isGroup?: SortOrder
+    members?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     group_id?: SortOrder
@@ -11104,11 +11130,13 @@ export namespace Prisma {
 
   export type ConversationWhereUniqueInput = Prisma.AtLeast<{
     id?: number
+    title_group_id?: ConversationTitleGroup_idCompoundUniqueInput
     AND?: ConversationWhereInput | ConversationWhereInput[]
     OR?: ConversationWhereInput[]
     NOT?: ConversationWhereInput | ConversationWhereInput[]
     title?: StringFilter<"Conversation"> | string
     isGroup?: BoolFilter<"Conversation"> | boolean
+    members?: IntFilter<"Conversation"> | number
     createdAt?: DateTimeFilter<"Conversation"> | Date | string
     updatedAt?: DateTimeFilter<"Conversation"> | Date | string
     group_id?: IntFilter<"Conversation"> | number
@@ -11116,12 +11144,13 @@ export namespace Prisma {
     groups?: XOR<GroupScalarRelationFilter, GroupWhereInput>
     messages?: MessageListRelationFilter
     participants?: UserListRelationFilter
-  }, "id">
+  }, "id" | "title_group_id">
 
   export type ConversationOrderByWithAggregationInput = {
     id?: SortOrder
     title?: SortOrder
     isGroup?: SortOrder
+    members?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     group_id?: SortOrder
@@ -11140,6 +11169,7 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"Conversation"> | number
     title?: StringWithAggregatesFilter<"Conversation"> | string
     isGroup?: BoolWithAggregatesFilter<"Conversation"> | boolean
+    members?: IntWithAggregatesFilter<"Conversation"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Conversation"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Conversation"> | Date | string
     group_id?: IntWithAggregatesFilter<"Conversation"> | number
@@ -11155,6 +11185,8 @@ export namespace Prisma {
     email?: StringFilter<"User"> | string
     emailVerified?: DateTimeNullableFilter<"User"> | Date | string | null
     image?: StringNullableFilter<"User"> | string | null
+    verified?: BoolFilter<"User"> | boolean
+    bio?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     accounts?: AccountListRelationFilter
@@ -11169,6 +11201,8 @@ export namespace Prisma {
     email?: SortOrder
     emailVerified?: SortOrderInput | SortOrder
     image?: SortOrderInput | SortOrder
+    verified?: SortOrder
+    bio?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     accounts?: AccountOrderByRelationAggregateInput
@@ -11186,6 +11220,8 @@ export namespace Prisma {
     name?: StringNullableFilter<"User"> | string | null
     emailVerified?: DateTimeNullableFilter<"User"> | Date | string | null
     image?: StringNullableFilter<"User"> | string | null
+    verified?: BoolFilter<"User"> | boolean
+    bio?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     accounts?: AccountListRelationFilter
@@ -11200,6 +11236,8 @@ export namespace Prisma {
     email?: SortOrder
     emailVerified?: SortOrderInput | SortOrder
     image?: SortOrderInput | SortOrder
+    verified?: SortOrder
+    bio?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: UserCountOrderByAggregateInput
@@ -11216,6 +11254,8 @@ export namespace Prisma {
     email?: StringWithAggregatesFilter<"User"> | string
     emailVerified?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     image?: StringNullableWithAggregatesFilter<"User"> | string | null
+    verified?: BoolWithAggregatesFilter<"User"> | boolean
+    bio?: StringNullableWithAggregatesFilter<"User"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
   }
@@ -11560,7 +11600,6 @@ export namespace Prisma {
   export type GroupCreateInput = {
     name: string
     slug: string
-    members?: number
     lastActive?: Date | string
     trending?: boolean
     verified?: boolean
@@ -11573,7 +11612,6 @@ export namespace Prisma {
     name: string
     slug: string
     categoryId: number
-    members?: number
     lastActive?: Date | string
     trending?: boolean
     verified?: boolean
@@ -11583,7 +11621,6 @@ export namespace Prisma {
   export type GroupUpdateInput = {
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
-    members?: IntFieldUpdateOperationsInput | number
     lastActive?: DateTimeFieldUpdateOperationsInput | Date | string
     trending?: BoolFieldUpdateOperationsInput | boolean
     verified?: BoolFieldUpdateOperationsInput | boolean
@@ -11596,7 +11633,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     categoryId?: IntFieldUpdateOperationsInput | number
-    members?: IntFieldUpdateOperationsInput | number
     lastActive?: DateTimeFieldUpdateOperationsInput | Date | string
     trending?: BoolFieldUpdateOperationsInput | boolean
     verified?: BoolFieldUpdateOperationsInput | boolean
@@ -11608,7 +11644,6 @@ export namespace Prisma {
     name: string
     slug: string
     categoryId: number
-    members?: number
     lastActive?: Date | string
     trending?: boolean
     verified?: boolean
@@ -11617,7 +11652,6 @@ export namespace Prisma {
   export type GroupUpdateManyMutationInput = {
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
-    members?: IntFieldUpdateOperationsInput | number
     lastActive?: DateTimeFieldUpdateOperationsInput | Date | string
     trending?: BoolFieldUpdateOperationsInput | boolean
     verified?: BoolFieldUpdateOperationsInput | boolean
@@ -11628,7 +11662,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     categoryId?: IntFieldUpdateOperationsInput | number
-    members?: IntFieldUpdateOperationsInput | number
     lastActive?: DateTimeFieldUpdateOperationsInput | Date | string
     trending?: BoolFieldUpdateOperationsInput | boolean
     verified?: BoolFieldUpdateOperationsInput | boolean
@@ -11637,6 +11670,7 @@ export namespace Prisma {
   export type ConversationCreateInput = {
     title: string
     isGroup?: boolean
+    members?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     unread?: number
@@ -11649,6 +11683,7 @@ export namespace Prisma {
     id?: number
     title: string
     isGroup?: boolean
+    members?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     group_id: number
@@ -11660,6 +11695,7 @@ export namespace Prisma {
   export type ConversationUpdateInput = {
     title?: StringFieldUpdateOperationsInput | string
     isGroup?: BoolFieldUpdateOperationsInput | boolean
+    members?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     unread?: IntFieldUpdateOperationsInput | number
@@ -11672,6 +11708,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     isGroup?: BoolFieldUpdateOperationsInput | boolean
+    members?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     group_id?: IntFieldUpdateOperationsInput | number
@@ -11684,6 +11721,7 @@ export namespace Prisma {
     id?: number
     title: string
     isGroup?: boolean
+    members?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     group_id: number
@@ -11693,6 +11731,7 @@ export namespace Prisma {
   export type ConversationUpdateManyMutationInput = {
     title?: StringFieldUpdateOperationsInput | string
     isGroup?: BoolFieldUpdateOperationsInput | boolean
+    members?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     unread?: IntFieldUpdateOperationsInput | number
@@ -11702,6 +11741,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     isGroup?: BoolFieldUpdateOperationsInput | boolean
+    members?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     group_id?: IntFieldUpdateOperationsInput | number
@@ -11714,6 +11754,8 @@ export namespace Prisma {
     email: string
     emailVerified?: Date | string | null
     image?: string | null
+    verified?: boolean
+    bio?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -11728,6 +11770,8 @@ export namespace Prisma {
     email: string
     emailVerified?: Date | string | null
     image?: string | null
+    verified?: boolean
+    bio?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -11742,6 +11786,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    verified?: BoolFieldUpdateOperationsInput | boolean
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -11756,6 +11802,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    verified?: BoolFieldUpdateOperationsInput | boolean
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -11770,6 +11818,8 @@ export namespace Prisma {
     email: string
     emailVerified?: Date | string | null
     image?: string | null
+    verified?: boolean
+    bio?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -11780,6 +11830,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    verified?: BoolFieldUpdateOperationsInput | boolean
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -11790,6 +11842,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    verified?: BoolFieldUpdateOperationsInput | boolean
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -12260,12 +12314,16 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type GroupNameCategoryIdCompoundUniqueInput = {
+    name: string
+    categoryId: number
+  }
+
   export type GroupCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
     slug?: SortOrder
     categoryId?: SortOrder
-    members?: SortOrder
     lastActive?: SortOrder
     trending?: SortOrder
     verified?: SortOrder
@@ -12274,7 +12332,6 @@ export namespace Prisma {
   export type GroupAvgOrderByAggregateInput = {
     id?: SortOrder
     categoryId?: SortOrder
-    members?: SortOrder
   }
 
   export type GroupMaxOrderByAggregateInput = {
@@ -12282,7 +12339,6 @@ export namespace Prisma {
     name?: SortOrder
     slug?: SortOrder
     categoryId?: SortOrder
-    members?: SortOrder
     lastActive?: SortOrder
     trending?: SortOrder
     verified?: SortOrder
@@ -12293,7 +12349,6 @@ export namespace Prisma {
     name?: SortOrder
     slug?: SortOrder
     categoryId?: SortOrder
-    members?: SortOrder
     lastActive?: SortOrder
     trending?: SortOrder
     verified?: SortOrder
@@ -12302,7 +12357,6 @@ export namespace Prisma {
   export type GroupSumOrderByAggregateInput = {
     id?: SortOrder
     categoryId?: SortOrder
-    members?: SortOrder
   }
 
   export type BoolWithAggregatesFilter<$PrismaModel = never> = {
@@ -12338,10 +12392,16 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type ConversationTitleGroup_idCompoundUniqueInput = {
+    title: string
+    group_id: number
+  }
+
   export type ConversationCountOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
     isGroup?: SortOrder
+    members?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     group_id?: SortOrder
@@ -12350,6 +12410,7 @@ export namespace Prisma {
 
   export type ConversationAvgOrderByAggregateInput = {
     id?: SortOrder
+    members?: SortOrder
     group_id?: SortOrder
     unread?: SortOrder
   }
@@ -12358,6 +12419,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     isGroup?: SortOrder
+    members?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     group_id?: SortOrder
@@ -12368,6 +12430,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     isGroup?: SortOrder
+    members?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     group_id?: SortOrder
@@ -12376,6 +12439,7 @@ export namespace Prisma {
 
   export type ConversationSumOrderByAggregateInput = {
     id?: SortOrder
+    members?: SortOrder
     group_id?: SortOrder
     unread?: SortOrder
   }
@@ -12417,6 +12481,8 @@ export namespace Prisma {
     email?: SortOrder
     emailVerified?: SortOrder
     image?: SortOrder
+    verified?: SortOrder
+    bio?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -12427,6 +12493,8 @@ export namespace Prisma {
     email?: SortOrder
     emailVerified?: SortOrder
     image?: SortOrder
+    verified?: SortOrder
+    bio?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -12437,6 +12505,8 @@ export namespace Prisma {
     email?: SortOrder
     emailVerified?: SortOrder
     image?: SortOrder
+    verified?: SortOrder
+    bio?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -13330,7 +13400,6 @@ export namespace Prisma {
   export type GroupCreateWithoutCategoryInput = {
     name: string
     slug: string
-    members?: number
     lastActive?: Date | string
     trending?: boolean
     verified?: boolean
@@ -13341,7 +13410,6 @@ export namespace Prisma {
     id?: number
     name: string
     slug: string
-    members?: number
     lastActive?: Date | string
     trending?: boolean
     verified?: boolean
@@ -13382,7 +13450,6 @@ export namespace Prisma {
     name?: StringFilter<"Group"> | string
     slug?: StringFilter<"Group"> | string
     categoryId?: IntFilter<"Group"> | number
-    members?: IntFilter<"Group"> | number
     lastActive?: DateTimeFilter<"Group"> | Date | string
     trending?: BoolFilter<"Group"> | boolean
     verified?: BoolFilter<"Group"> | boolean
@@ -13391,6 +13458,7 @@ export namespace Prisma {
   export type ConversationCreateWithoutGroupsInput = {
     title: string
     isGroup?: boolean
+    members?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     unread?: number
@@ -13402,6 +13470,7 @@ export namespace Prisma {
     id?: number
     title: string
     isGroup?: boolean
+    members?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     unread?: number
@@ -13466,6 +13535,7 @@ export namespace Prisma {
     id?: IntFilter<"Conversation"> | number
     title?: StringFilter<"Conversation"> | string
     isGroup?: BoolFilter<"Conversation"> | boolean
+    members?: IntFilter<"Conversation"> | number
     createdAt?: DateTimeFilter<"Conversation"> | Date | string
     updatedAt?: DateTimeFilter<"Conversation"> | Date | string
     group_id?: IntFilter<"Conversation"> | number
@@ -13505,7 +13575,6 @@ export namespace Prisma {
   export type GroupCreateWithoutConversationsInput = {
     name: string
     slug: string
-    members?: number
     lastActive?: Date | string
     trending?: boolean
     verified?: boolean
@@ -13517,7 +13586,6 @@ export namespace Prisma {
     name: string
     slug: string
     categoryId: number
-    members?: number
     lastActive?: Date | string
     trending?: boolean
     verified?: boolean
@@ -13561,6 +13629,8 @@ export namespace Prisma {
     email: string
     emailVerified?: Date | string | null
     image?: string | null
+    verified?: boolean
+    bio?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -13574,6 +13644,8 @@ export namespace Prisma {
     email: string
     emailVerified?: Date | string | null
     image?: string | null
+    verified?: boolean
+    bio?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -13600,7 +13672,6 @@ export namespace Prisma {
   export type GroupUpdateWithoutConversationsInput = {
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
-    members?: IntFieldUpdateOperationsInput | number
     lastActive?: DateTimeFieldUpdateOperationsInput | Date | string
     trending?: BoolFieldUpdateOperationsInput | boolean
     verified?: BoolFieldUpdateOperationsInput | boolean
@@ -13612,7 +13683,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     categoryId?: IntFieldUpdateOperationsInput | number
-    members?: IntFieldUpdateOperationsInput | number
     lastActive?: DateTimeFieldUpdateOperationsInput | Date | string
     trending?: BoolFieldUpdateOperationsInput | boolean
     verified?: BoolFieldUpdateOperationsInput | boolean
@@ -13672,6 +13742,8 @@ export namespace Prisma {
     email?: StringFilter<"User"> | string
     emailVerified?: DateTimeNullableFilter<"User"> | Date | string | null
     image?: StringNullableFilter<"User"> | string | null
+    verified?: BoolFilter<"User"> | boolean
+    bio?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
   }
@@ -13770,6 +13842,7 @@ export namespace Prisma {
   export type ConversationCreateWithoutParticipantsInput = {
     title: string
     isGroup?: boolean
+    members?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     unread?: number
@@ -13781,6 +13854,7 @@ export namespace Prisma {
     id?: number
     title: string
     isGroup?: boolean
+    members?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     group_id: number
@@ -13893,6 +13967,8 @@ export namespace Prisma {
     email: string
     emailVerified?: Date | string | null
     image?: string | null
+    verified?: boolean
+    bio?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: SessionCreateNestedManyWithoutUserInput
@@ -13906,6 +13982,8 @@ export namespace Prisma {
     email: string
     emailVerified?: Date | string | null
     image?: string | null
+    verified?: boolean
+    bio?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
@@ -13935,6 +14013,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    verified?: BoolFieldUpdateOperationsInput | boolean
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUpdateManyWithoutUserNestedInput
@@ -13948,6 +14028,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    verified?: BoolFieldUpdateOperationsInput | boolean
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
@@ -13961,6 +14043,8 @@ export namespace Prisma {
     email: string
     emailVerified?: Date | string | null
     image?: string | null
+    verified?: boolean
+    bio?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -13974,6 +14058,8 @@ export namespace Prisma {
     email: string
     emailVerified?: Date | string | null
     image?: string | null
+    verified?: boolean
+    bio?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -14003,6 +14089,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    verified?: BoolFieldUpdateOperationsInput | boolean
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -14016,6 +14104,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    verified?: BoolFieldUpdateOperationsInput | boolean
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -14029,6 +14119,8 @@ export namespace Prisma {
     email: string
     emailVerified?: Date | string | null
     image?: string | null
+    verified?: boolean
+    bio?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -14042,6 +14134,8 @@ export namespace Prisma {
     email: string
     emailVerified?: Date | string | null
     image?: string | null
+    verified?: boolean
+    bio?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -14057,6 +14151,7 @@ export namespace Prisma {
   export type ConversationCreateWithoutMessagesInput = {
     title: string
     isGroup?: boolean
+    members?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     unread?: number
@@ -14068,6 +14163,7 @@ export namespace Prisma {
     id?: number
     title: string
     isGroup?: boolean
+    members?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     group_id: number
@@ -14097,6 +14193,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    verified?: BoolFieldUpdateOperationsInput | boolean
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -14110,6 +14208,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    verified?: BoolFieldUpdateOperationsInput | boolean
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -14131,6 +14231,7 @@ export namespace Prisma {
   export type ConversationUpdateWithoutMessagesInput = {
     title?: StringFieldUpdateOperationsInput | string
     isGroup?: BoolFieldUpdateOperationsInput | boolean
+    members?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     unread?: IntFieldUpdateOperationsInput | number
@@ -14142,6 +14243,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     isGroup?: BoolFieldUpdateOperationsInput | boolean
+    members?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     group_id?: IntFieldUpdateOperationsInput | number
@@ -14153,7 +14255,6 @@ export namespace Prisma {
     id?: number
     name: string
     slug: string
-    members?: number
     lastActive?: Date | string
     trending?: boolean
     verified?: boolean
@@ -14162,7 +14263,6 @@ export namespace Prisma {
   export type GroupUpdateWithoutCategoryInput = {
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
-    members?: IntFieldUpdateOperationsInput | number
     lastActive?: DateTimeFieldUpdateOperationsInput | Date | string
     trending?: BoolFieldUpdateOperationsInput | boolean
     verified?: BoolFieldUpdateOperationsInput | boolean
@@ -14173,7 +14273,6 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
-    members?: IntFieldUpdateOperationsInput | number
     lastActive?: DateTimeFieldUpdateOperationsInput | Date | string
     trending?: BoolFieldUpdateOperationsInput | boolean
     verified?: BoolFieldUpdateOperationsInput | boolean
@@ -14184,7 +14283,6 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
-    members?: IntFieldUpdateOperationsInput | number
     lastActive?: DateTimeFieldUpdateOperationsInput | Date | string
     trending?: BoolFieldUpdateOperationsInput | boolean
     verified?: BoolFieldUpdateOperationsInput | boolean
@@ -14194,6 +14292,7 @@ export namespace Prisma {
     id?: number
     title: string
     isGroup?: boolean
+    members?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     unread?: number
@@ -14202,6 +14301,7 @@ export namespace Prisma {
   export type ConversationUpdateWithoutGroupsInput = {
     title?: StringFieldUpdateOperationsInput | string
     isGroup?: BoolFieldUpdateOperationsInput | boolean
+    members?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     unread?: IntFieldUpdateOperationsInput | number
@@ -14213,6 +14313,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     isGroup?: BoolFieldUpdateOperationsInput | boolean
+    members?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     unread?: IntFieldUpdateOperationsInput | number
@@ -14224,6 +14325,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     isGroup?: BoolFieldUpdateOperationsInput | boolean
+    members?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     unread?: IntFieldUpdateOperationsInput | number
@@ -14270,6 +14372,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    verified?: BoolFieldUpdateOperationsInput | boolean
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -14283,6 +14387,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    verified?: BoolFieldUpdateOperationsInput | boolean
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -14296,6 +14402,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    verified?: BoolFieldUpdateOperationsInput | boolean
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -14426,6 +14534,7 @@ export namespace Prisma {
   export type ConversationUpdateWithoutParticipantsInput = {
     title?: StringFieldUpdateOperationsInput | string
     isGroup?: BoolFieldUpdateOperationsInput | boolean
+    members?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     unread?: IntFieldUpdateOperationsInput | number
@@ -14437,6 +14546,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     isGroup?: BoolFieldUpdateOperationsInput | boolean
+    members?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     group_id?: IntFieldUpdateOperationsInput | number
@@ -14448,6 +14558,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     isGroup?: BoolFieldUpdateOperationsInput | boolean
+    members?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     group_id?: IntFieldUpdateOperationsInput | number

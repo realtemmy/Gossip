@@ -26,20 +26,22 @@ model Group {
   name          String
   slug          String
   categoryId    Int
-  members       Int            @default(0)
   lastActive    DateTime       @default(now())
   trending      Boolean        @default(false)
   verified      Boolean        @default(false)
   conversations Conversation[]
   Category      Category       @relation(fields: [categoryId], references: [id])
 
+  @@unique([name, categoryId])
   @@map("groups")
 }
 
+// Should be unique under a Group
 model Conversation {
   id           Int       @id @default(autoincrement())
   title        String
   isGroup      Boolean   @default(true)
+  members      Int       @default(1)
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
   group_id     Int
@@ -48,15 +50,19 @@ model Conversation {
   participants User[]
   unread       Int       @default(0)
 
+  @@unique([title, group_id])
   @@map("conversations")
 }
 
 model User {
-  id            String         @id @default(cuid())
+  id            String    @id @default(cuid())
   name          String?
-  email         String         @unique
+  email         String    @unique
   emailVerified DateTime?
   image         String?
+  verified      Boolean   @default(false)
+  bio           String?
+
   accounts      Account[]
   sessions      Session[]
   Message       Message[]
